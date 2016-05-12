@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 	char hilbtempname[80], integtempname[80];
 	hilb=dvector(1,Ndatos); //este gato inicializa mal
    
-	for(i=1;i<=Ndatos;i++) hilb[i]=0.0;
+	for(i=1;i<=500;i++) hilb[i]=0.0; //guarda si cambia LFILT
    
 	hilbert(temp,hilb,Ndatos);
 	

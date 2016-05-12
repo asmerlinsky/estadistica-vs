@@ -45,41 +45,42 @@ int main(int argc, char *argv[]) { /*usa los templados procesados*/
    int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2;
     
     char *letras,*templado;
-    char entrada[40];
+    char filetemplado[40];
+	char entrada[40];
     char salida[50];
     FILE *pFile;
     
     letras=argv[1];
 	templado=argv[2];
 	sscanf(templado, "%i", &perio); //no anda bien 
-	printf("perio es %i \n", perio);
-    sprintf(entrada,"%s",letras);
+	printf("letras es %s \n", letras);
+	printf("templado es %s \n", templado);
+    //sprintf(entrada,"%s",letras);
+	sprintf(filetemplado,"%s",templado);
     sprintf(salida,"corremg%i.%s.dat",perio,letras);
     //si corre hasta aca
-	
-	
+	printf("entrada es %s \n", entrada);
+	printf("filetemplado es %s \n", filetemplado);
+	printf("salida es %s \n", salida);	
     //perio=2;
-    printf("OK\n");
-
     //CARGA EMG1
     double *emg1;
-    Ndatos1=filesize(templado,1);
+    Ndatos1=filesize(filetemplado,1);
     Ndatos1s2=Ndatos1/2;
     emg1=dvector(1,Ndatos1);
-    file_to_vector(templado,emg1,1,Ndatos1,1,1);
-    
+    file_to_vector(filetemplado,emg1,1,Ndatos1,1,1);
+
     double *emg2;
-    Ndatos2=filesize(entrada,1);
+    Ndatos2=filesize(letras,1);
 	Ndatos2s2=Ndatos2/2;
     emg2=dvector(1,Ndatos2);
-    file_to_vector(entrada,emg2,1,Ndatos2,1,1);
-
+    file_to_vector(letras,emg2,1,Ndatos2,1,1);
+    printf("emg2 OK\n");
     printf("\tNdatos1sd: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
 
     double *hilb2;
     hilb2=dvector(1,Ndatos2);
-	for(i=1;i<=Ndatos2;i++) hilb2[i]=0.0;
-    hilbert(emg2,hilb2,Ndatos2);
+	for(i=1;i<=500;i++) hilb2[i]=0.0; //guarda si cambia LFILT
     vector_to_file("hilbert.sueno.dat",hilb2,1,Ndatos2s2);
 
     printf("ok\n");  
@@ -89,9 +90,10 @@ int main(int argc, char *argv[]) { /*usa los templados procesados*/
     double v2[1],dt, t;
     double *av_sound2;
     av_sound2=dvector(1,Ndatos2);
+	for(i=1;i<=Ndatos2;i++) av_sound2[i]=0.0; 
     k=0;
     dt=1/10000.;
-    aa.tau=15./1500.;
+    aa.tau=300./1500.;
     //aa.tau=.5/1500.;
 
 	for(i=1;i<=Ndatos2;i++){
@@ -101,7 +103,7 @@ int main(int argc, char *argv[]) { /*usa los templados procesados*/
     }  
    
    
-
+	vector_to_file("rk4.dat",av_sound2,1,Ndatos2s2);
  
     
     //SAVITSKY-GOLAY
@@ -120,7 +122,10 @@ int main(int argc, char *argv[]) { /*usa los templados procesados*/
     convlv(data2,POT2,c2,513,1,ans2);
     
     for(i=2;i<POT2-1;i++) sav2[i]=(double) ans2[i];
-    vector_to_file("envolvente.letras",sav2,1,Ndatos2s2); 
+	char envname[50];
+	strcpy(envname, "envolvente.");
+    strcat(envname, letras);
+    vector_to_file(envname,sav2,1,Ndatos2s2); 
     
     //calculo de la correlacion entre las señales.
     

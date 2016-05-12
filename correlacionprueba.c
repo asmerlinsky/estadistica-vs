@@ -19,7 +19,6 @@
 #include"lubksb.c"
 #include"ludcmp.c"
 
-
 struct Par {
     double beta; double tau;
 } aa;
