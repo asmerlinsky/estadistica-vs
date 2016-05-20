@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 	
 	strcpy(hilbtempname, "hilbert.");
 	strcat(hilbtempname, nomfile);
-
+	strcat(hilbtempname, ".dat");
 	printf("hilbert ok \n nombrehilbert %s \n",hilbtempname);
 	vector_to_file(hilbtempname,hilb,1,Ndatos);
 	    
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
   
     k=0;
     dt=1/10000.;
-    aa.tau=300./1500.;
+    aa.tau=1./1500.;
     //aa.tau=.5/1500.;
     for(i=1;i<=Ndatos;i++){
 		aa.beta=hilb[i];
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
     
 	strcpy(integtempname, "integrado.");
 	strcat(integtempname, nomfile);
-
+	strcat(integtempname, ".dat");
 	printf("integ ok \n nombreinteg %s \n",integtempname);
 	vector_to_file(integtempname,av_sound,1,Ndatos);
     
@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
   
 	for(i=1;i<=POT;i++) data1[i]=(float) av_sound[i];
 	
-	savgol(c1,513,256,256,0,4);
+	savgol(c1,513,256,256,0,3);
     
 	for(index=1;index<=POT;index++) data1[index]=fabs(data1[index]);
 	
@@ -124,6 +124,7 @@ int main(int argc, char *argv[]) {
     
 	strcpy(suavtempname, "envolvente.");
     strcat(suavtempname, nomfile);
+    strcat(suavtempname, ".dat");
     vector_to_file(suavtempname,sav,1,Ndatoss2);
     
 	printf("nombreenvolventees: %s\n",suavtempname);         

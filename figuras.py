@@ -3,24 +3,33 @@ import numpy as np
 
 
 absvs=np.abs(np.loadtxt('ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound'))
-hilbert=np.loadtxt('hilbert.sueno.dat')
-envolvente=np.loadtxt('envolvente.ZF-MCV_2015-12-01_13_13_49_vs_29_band.dat')
-senalpostrk4=np.loadtxt('rk4.dat')
+emg1=np.loadtxt('emg1.Sound')
+emg2=np.loadtxt('emg2.Sound')
+envemg1=np.loadtxt('envolvente.emg1.Sound.dat')
+envemg2=np.loadtxt('envolvente.emg2.Sound.dat')
+
+envemg1=envemg1/np.max(envemg1)
+envemg2=envemg2/np.max(envemg2)
+emg1=emg1/np.max(emg1)
+emg2=emg2/np.max(emg2)
+
+
 
 
 plt.figure(1)
 #plt.xlim(0,len(envolvente))
 plt.plot(absvs)
-plt.plot(hilbert,'r')
 
 plt.figure(2)
-plt.plot(hilbert)
-
+plt.plot(emg1)
+plt.plot(envemg1)
 
 plt.figure(3)
 #plt.xlim(0,len(envolvente))
-plt.plot(senalpostrk4)
+plt.plot(emg2)
+plt.plot(envemg2)
 
 plt.figure(4)
-plt.plot(envolvente)
+plt.plot(emg1)
+plt.plot(emg2)
 plt.show(block=True)
