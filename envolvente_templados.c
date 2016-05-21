@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 	Ndatoss2=Ndatos/2;
     temp=dvector(1,Ndatos);
     file_to_vector(entrada,temp,1,Ndatos,1,1);
-	printf("templado %s \n", nomfile);
+	printf("templado es %s \n", nomfile);
 
 
 
@@ -72,6 +72,7 @@ int main(int argc, char *argv[]) {
 	strcpy(hilbtempname, "hilbert.");
 	strcat(hilbtempname, nomfile);
 	strcat(hilbtempname, ".dat");
+
 	printf("hilbert ok \n nombrehilbert %s \n",hilbtempname);
 	vector_to_file(hilbtempname,hilb,1,Ndatos);
 	    
@@ -83,7 +84,7 @@ int main(int argc, char *argv[]) {
   
     k=0;
     dt=1/10000.;
-    aa.tau=1./1500.;
+    aa.tau=5./1500.;
     //aa.tau=.5/1500.;
 	printf("v[0]= %d y v[1]=%d \n",v[0],v[1]);
     for(i=1;i<=Ndatos;i++){
