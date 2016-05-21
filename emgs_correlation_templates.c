@@ -1,4 +1,4 @@
-
+//
 //apunta a correlaciones
 //Procesa los archivos de sueño, los templados ya estan procesados
 #include <stdio.h>
@@ -39,9 +39,8 @@ int nearpow2(int number){
 }
 
 
-
-int main(int argc, char *argv[]) { /*usa los templados procesados*/
-//    int main() {
+ /*usa los templados procesados*/
+int main(int argc, char *argv[]) {
    int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2;
     
     char *letras,*templado;
@@ -50,37 +49,46 @@ int main(int argc, char *argv[]) { /*usa los templados procesados*/
     char salida[50];
     FILE *pFile;
     
+	
     letras=argv[1];
 	templado=argv[2];
-	sscanf(templado, "%i", &perio); //no anda bien 
+	sscanf(templado, "%i", &perio); //no anda bien
+	
 	printf("letras es %s \n", letras);
 	printf("templado es %s \n", templado);
+	
     //sprintf(entrada,"%s",letras);
 	sprintf(filetemplado,"%s",templado);
+	sprintf(entrada,"%s",letras);
     sprintf(salida,"corremg%i.%s.dat",perio,letras);
     //si corre hasta aca
-	printf("entrada es %s \n", entrada);
 	printf("filetemplado es %s \n", filetemplado);
 	printf("salida es %s \n", salida);	
+	printf("entrada es %s \n", entrada);	
     //perio=2;
+	
     //CARGA EMG1
     double *emg1;
     Ndatos1=filesize(filetemplado,1);
     Ndatos1s2=Ndatos1/2;
     emg1=dvector(1,Ndatos1);
     file_to_vector(filetemplado,emg1,1,Ndatos1,1,1);
-
+	printf("templado OK\n");
+	//carga SUEÑO
     double *emg2;
     Ndatos2=filesize(letras,1);
 	Ndatos2s2=Ndatos2/2;
     emg2=dvector(1,Ndatos2);
-    file_to_vector(letras,emg2,1,Ndatos2,1,1);
-    printf("emg2 OK\n");
+    file_to_vector(entrada,emg2,1,Ndatos2,1,1);
+    printf("sueño OK\n");
     printf("\tNdatos1sd: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
-
+	
+	
+	//Hilbert a sueño
     double *hilb2;
     hilb2=dvector(1,Ndatos2);
 	for(i=1;i<=500;i++) hilb2[i]=0.0; //guarda si cambia LFILT
+	hilbert(emg2,hilb2,Ndatos2);
     vector_to_file("hilbert.sueno.dat",hilb2,1,Ndatos2s2);
 
     printf("ok\n");  
@@ -88,14 +96,15 @@ int main(int argc, char *argv[]) { /*usa los templados procesados*/
 
    //SUAVIZA ENVOLVENTE CON INTEGRACION
     double v2[1],dt, t;
+	struct Queue aa = {0, 0};
     double *av_sound2;
     av_sound2=dvector(1,Ndatos2);
-	for(i=1;i<=Ndatos2;i++) av_sound2[i]=0.0; 
+	
     k=0;
     dt=1/10000.;
     aa.tau=1./1500.;
     //aa.tau=.5/1500.;
-
+	printf("v2[0]= %d y v2[1]=%d \n",v2[0],v2[1]);
 	for(i=1;i<=Ndatos2;i++){
 		aa.beta=hilb2[i];
         rk4(takens,v2,1,t+0.0,dt);
@@ -103,7 +112,7 @@ int main(int argc, char *argv[]) { /*usa los templados procesados*/
     }  
    
    
-	vector_to_file("rk4.dat",av_sound2,1,Ndatos2s2);
+	vector_to_file("int.sueno.dat",av_sound2,1,Ndatos2s2);
  
     
     //SAVITSKY-GOLAY

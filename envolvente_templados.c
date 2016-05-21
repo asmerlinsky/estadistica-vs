@@ -85,6 +85,7 @@ int main(int argc, char *argv[]) {
     dt=1/10000.;
     aa.tau=1./1500.;
     //aa.tau=.5/1500.;
+	printf("v[0]= %d y v[1]=%d \n",v[0],v[1]);
     for(i=1;i<=Ndatos;i++){
 		aa.beta=hilb[i];
         rk4(takens,v,1,t+0.0,dt);

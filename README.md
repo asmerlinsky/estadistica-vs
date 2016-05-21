@@ -4,6 +4,9 @@
 * Tratar de tener siempre los mismos parámetros 
 * En emgs_correlation_templates.c
 ** siempre pasar los templados ya filtrados
+* Cuando los procese en python tengo que
+** guardarlos con .Sound
+** y duplicarlos para no perder tantos datos
 
 
 ##*Los parámetros que cambié quedaron en*##
