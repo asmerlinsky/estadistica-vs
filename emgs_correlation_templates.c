@@ -43,24 +43,23 @@ int nearpow2(int number){
 int main(int argc, char *argv[]) {
    int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2;
     
-    char *letras,*templado;
-    char filetemplado[40];
-	char entrada[40];
-    char salida[50];
+    char filetemplado[80];
+	char entrada[80];
+    char salida[80];
     FILE *pFile;
     
 	
-    letras=argv[1];
-	templado=argv[2];
-	sscanf(templado, "%i", &perio); //no anda bien
-	
-	printf("letras es %s \n", letras);
-	printf("templado es %s \n", templado);
+    //letras=argv[1];
+	//templado=argv[2];
+	sscanf(argv[2], "%i", &perio); //no anda bien
+	printf("perio vale %i \n",perio);
+	//printf("letras es %s \n", letras);
+	//printf("templado es %s \n", templado);
 	
     //sprintf(entrada,"%s",letras);
-	sprintf(filetemplado,"%s",templado);
-	sprintf(entrada,"%s",letras);
-    sprintf(salida,"corremg%i.%s.dat",perio,letras);
+	sprintf(filetemplado,"%s",argv[2]);
+	sprintf(entrada,"%s",argv[1]);
+    sprintf(salida,"corremg%i.%s.dat",perio,argv[1]);
     //si corre hasta aca
 	printf("filetemplado es %s \n", filetemplado);
 	printf("salida es %s \n", salida);	
@@ -76,11 +75,11 @@ int main(int argc, char *argv[]) {
 	printf("templado OK\n");
 	//carga SUEÑO
     double *emg2;
-    Ndatos2=filesize(letras,1);
+    Ndatos2=filesize(entrada,1);
 	Ndatos2s2=Ndatos2/2;
     emg2=dvector(1,Ndatos2);
     file_to_vector(entrada,emg2,1,Ndatos2,1,1);
-    printf("sueño OK\n");
+    printf("sueno OK\n");
     printf("\tNdatos1sd: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
 	
 	
@@ -96,13 +95,12 @@ int main(int argc, char *argv[]) {
 
    //SUAVIZA ENVOLVENTE CON INTEGRACION
     double v2[1],dt, t;
-	struct Queue aa = {0, 0};
     double *av_sound2;
     av_sound2=dvector(1,Ndatos2);
 	
     k=0;
     dt=1/10000.;
-    aa.tau=1./1500.;
+    aa.tau=5./1500.;
     //aa.tau=.5/1500.;
 	printf("v2[0]= %d y v2[1]=%d \n",v2[0],v2[1]);
 	for(i=1;i<=Ndatos2;i++){
@@ -133,7 +131,7 @@ int main(int argc, char *argv[]) {
     for(i=2;i<POT2-1;i++) sav2[i]=(double) ans2[i];
 	char envname[50];
 	strcpy(envname, "envolvente.");
-    strcat(envname, letras);
+    strcat(envname, entrada);
 	strcat(envname, ".dat");
     vector_to_file(envname,sav2,1,Ndatos2s2); 
     
@@ -143,7 +141,7 @@ int main(int argc, char *argv[]) {
     
     FILE *ptr;
     ptr=fopen(salida,"w");
-    
+    int cant=0,ultj;
     for(j=2;j<Ndatos2s2-Nmin;j++){
         double x1bar=0.0,sx1=0.0;
         for(i=2;i<Nmin;i++){x1bar+=emg1[i];}
@@ -159,14 +157,15 @@ int main(int argc, char *argv[]) {
     for( i = 2; i < Nmin; i++ ) {r += (((emg1[i] - x1bar)/sx1) * ((sav2[i+j] - x2bar)/sx2));}
     r /= (Nmin-2);
         
-    fprintf(ptr,"%g\t %d\n",r,j);
+    fprintf(ptr,"%g\t %d\n",j,r);
         if(r>0.8){pFile=fopen("resultados.dat","a");
-            fprintf(pFile,"%g\t %d\t %s\t %d\n",r,j,letras,perio);
-			// capaz meconviene sin letras
-            fclose(pFile);
-                    }
+			if(j-ultj>50) cant+=1;			
+            fprintf(pFile,"%g\t %d\t %s\t %d,%i\n",j,r,entrada,perio,cant);
+			fclose(pFile);			
+			ultj=j;
+		}
     }
-        
+    printf("cantidad de coincidencias=%i",cant);
     free_dvector(av_sound2,1,Ndatos2);
     free_dvector(hilb2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);
