@@ -41,30 +41,24 @@ int nearpow2(int number){
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
-   int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2;
-    
+    int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2;
+    char string1[20], string2[20];
     char filetemplado[80];
 	char entrada[80];
     char salida[80];
     FILE *pFile;
     
-	
-    //letras=argv[1];
-	//templado=argv[2];
-	sscanf(argv[2], "%i", &perio); //no anda bien
+	//asigno que silaba es
+	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
 	printf("perio vale %i \n",perio);
-	//printf("letras es %s \n", letras);
-	//printf("templado es %s \n", templado);
 	
-    //sprintf(entrada,"%s",letras);
 	sprintf(filetemplado,"%s",argv[2]);
 	sprintf(entrada,"%s",argv[1]);
     sprintf(salida,"corremg%i.%s.dat",perio,argv[1]);
-    //si corre hasta aca
+	
 	printf("filetemplado es %s \n", filetemplado);
 	printf("salida es %s \n", salida);	
 	printf("entrada es %s \n", entrada);	
-    //perio=2;
 	
     //CARGA EMG1
     double *emg1;
