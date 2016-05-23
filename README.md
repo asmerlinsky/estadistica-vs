@@ -1,5 +1,5 @@
 # estadistica-vs
-
+# Cambié el tema del ssh
 ##*Recordar*
 * Tratar de tener siempre los mismos parámetros 
 * En emgs_correlation_templates.c
