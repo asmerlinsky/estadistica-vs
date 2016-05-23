@@ -99,4 +99,54 @@ plt.legend()
 plt.show(block=True)
 
 
+fig = plt.figure()
+fig.suptitle("Envolvente templados", fontsize=16)
+ax = plt.subplot("511")
+ax.set_title("env1")
+ax.plot(envemg1)
+
+ax = plt.subplot("512")
+ax.set_title("env2")
+ax.plot(envemg2)
+
+
+ax = plt.subplot("513")
+ax.set_title("env3")
+ax.plot(envemg3)
+
+
+ax = plt.subplot("514")
+ax.set_title("env4")
+ax.plot(envemg4)
+
+
+ax = plt.subplot("515")
+ax.set_title("env5")
+ax.plot(envemg5)
+
+fig = plt.figure()
+fig.suptitle("Templados", fontsize=16)
+ax = plt.subplot("511")
+ax.set_title("emg1")
+ax.plot(emg1)
+
+ax = plt.subplot("512")
+ax.set_title("emg2")
+ax.plot(emg2)
+
+
+ax = plt.subplot("513")
+ax.set_title("emg3")
+ax.plot(emg3)
+
+
+ax = plt.subplot("514")
+ax.set_title("emg4")
+ax.plot(emg4)
+
+
+ax = plt.subplot("515")
+ax.set_title("emg5")
+ax.plot(emg5)
+plt.show()
 

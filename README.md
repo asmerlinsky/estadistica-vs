@@ -1,5 +1,5 @@
 # estadistica-vs
-# Cambié el tema del ssh
+
 ##*Recordar*
 * Tratar de tener siempre los mismos parámetros 
 * En emgs_correlation_templates.c
@@ -19,3 +19,8 @@
 * envtempl.exe emg1.Sound
 * gcc emgs_correlation_templates.c -lm -o correlacionsueno
 * correlacionsueno.exe ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound envolvente.emg1.Sound.dat 
+
+## Calendario
+
+### 23/05/16
+* Voy a volver a extraer los templados a ver si mejoro la estadísitica con unos más adecuados. El emg1 está bien, el resto habría que ver.

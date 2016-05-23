@@ -136,30 +136,35 @@ int main(int argc, char *argv[]) {
     FILE *ptr;
     ptr=fopen(salida,"w");
     int cant=0,ultj;
-    for(j=2;j<Ndatos2s2-Nmin;j++){
-        double x1bar=0.0,sx1=0.0;
+    for(j=2;j<Ndatos2s2-Nmin;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
+        
+		double x1bar=0.0,sx1=0.0; //Toma el promedio del templado
         for(i=2;i<Nmin;i++){x1bar+=emg1[i];}
         x1bar /= (Nmin-2);
-    double x2bar=0.0, sx2=0.0,r=0.0;
-    for(i=2;i<Nmin;i++){x2bar+=sav2[i+j];}
-    x2bar /= (Nmin-2);
-    for(i = 2; i < Nmin; i++) {sx1 += (emg1[i] - x1bar) * (emg1[i] - x1bar);}
-    sx1 = sqrt((sx1 / (Nmin-2)));
-    for(i = 2; i < Nmin; i++) {sx2 += (sav2[i+j] - x2bar) * (sav2[i+j] - x2bar);}
-    sx2 = sqrt((sx2 / (Nmin-2)));
+
+    	double x2bar=0.0, sx2=0.0,r=0.0; //Toma el promedio de la señal
+    	for(i=2;i<Nmin;i++){x2bar+=sav2[i+j];} 
+    	x2bar /= (Nmin-2); 
+    	
+		for(i = 2; i < Nmin; i++) {sx1 += (emg1[i] - x1bar) * (emg1[i] - x1bar);} //Resta el promedio
+    	sx1 = sqrt((sx1 / (Nmin-2)));// y toma una especie de norma de la señal con promedio 0
+
+    	
+		for(i = 2; i < Nmin; i++) {sx2 += (sav2[i+j] - x2bar) * (sav2[i+j] - x2bar);}//idem
+    	sx2 = sqrt((sx2 / (Nmin-2)));
     
-    for( i = 2; i < Nmin; i++ ) {r += (((emg1[i] - x1bar)/sx1) * ((sav2[i+j] - x2bar)/sx2));}
-    r /= (Nmin-2);
+    	for( i = 2; i < Nmin; i++ ) {r += (((emg1[i] - x1bar)/sx1) * ((sav2[i+j] - x2bar)/sx2));}//Hace un producto normalizado(convoluciona)
+    	r /= (Nmin-2);
         
-    fprintf(ptr,"%g\t %d\n",j,r);
+    	fprintf(ptr,"%g\t %d\n",j,r);
         if(r>0.8){pFile=fopen("resultados.dat","a");
-			if(j-ultj>50) cant+=1;			
+			if(j-ultj>50){ cant+=1;}			
             fprintf(pFile,"%g\t %d\t %s\t %d,%i\n",j,r,entrada,perio,cant);
 			fclose(pFile);			
 			ultj=j;
-		}
+			}
     }
-    printf("cantidad de coincidencias=%i",cant);
+    printf("cantidad de coincidencias=%i \n",cant);
     free_dvector(av_sound2,1,Ndatos2);
     free_dvector(hilb2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);

@@ -8,7 +8,7 @@ absvs=np.abs(vs)
 intvs=np.loadtxt('int.sueno.dat')
 envvs=np.loadtxt('envolvente.ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound.dat')
 hilbvs=np.loadtxt('hilbert.sueno.dat')
-corremg1=np.loadtxt('corremg4.ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound.dat')
+corremg1=np.loadtxt('corremg1.ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound.dat')
 
 hilbvs=hilbvs/np.max(hilbvs)
 
@@ -22,6 +22,8 @@ absvs=absvs/np.max(absvs)
 
 corremg1=corremg1/np.max(corremg1)
 
+
+plt.plot(corremg1[:,0],label='correlacionemg1')
 
 plt.figure()
 #plt.xlim(0,len(envolvente))
