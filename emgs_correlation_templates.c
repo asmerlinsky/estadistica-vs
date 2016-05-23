@@ -94,9 +94,9 @@ int main(int argc, char *argv[]) {
 	
     k=0;
     dt=1/10000.;
-    aa.tau=5./1500.;
+    aa.tau=15./1500.;
     //aa.tau=.5/1500.;
-	printf("v2[0]= %d y v2[1]=%d \n",v2[0],v2[1]);
+
 	for(i=1;i<=Ndatos2;i++){
 		aa.beta=hilb2[i];
         rk4(takens,v2,1,t+0.0,dt);
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
     sav2=dvector(1,Ndatos2); 
 	
 	for(i=1;i<=POT2;i++) data2[i]=(float) av_sound2[i];
-    savgol(c2,513,256,256,0,4);
+    savgol(c2,513,256,256,0,3);
     for(index=1;index<=POT2;index++) data2[index]=fabs(data2[index]);
     convlv(data2,POT2,c2,513,1,ans2);
     

@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
   
     k=0;
     dt=1/10000.;
-    aa.tau=5./1500.;
+    aa.tau=15./1500.;
     //aa.tau=.5/1500.;
 	printf("v[0]= %d y v[1]=%d \n",v[0],v[1]);
     for(i=1;i<=Ndatos;i++){
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
   
 	for(i=1;i<=POT;i++) data1[i]=(float) av_sound[i];
 	
-	savgol(c1,513,256,256,0,4);
+	savgol(c1,513,256,256,0,3);
     
 	for(index=1;index<=POT;index++) data1[index]=fabs(data1[index]);
 	
