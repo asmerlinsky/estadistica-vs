@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
     sav2=dvector(1,Ndatos2); 
 	
 	for(i=1;i<=POT2;i++) data2[i]=(float) av_sound2[i];
-    savgol(c2,513,256,256,0,3);
+    savgol(c2,513,256,256,0,4);
     for(index=1;index<=POT2;index++) data2[index]=fabs(data2[index]);
     convlv(data2,POT2,c2,513,1,ans2);
     
@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
     	x2bar /= (Nmin-2); 
     	
 		for(i = 2; i < Nmin; i++) {sx1 += (emg1[i] - x1bar) * (emg1[i] - x1bar);} //Resta el promedio
-    	sx1 = sqrt((sx1 / (Nmin-2)));// y toma una especie de norma de la señal con promedio 0
+    	sx1 = sqrt((sx1 / (Nmin-2)));// y toma una especie de norma de la señal con promedio 0			
 
     	
 		for(i = 2; i < Nmin; i++) {sx2 += (sav2[i+j] - x2bar) * (sav2[i+j] - x2bar);}//idem

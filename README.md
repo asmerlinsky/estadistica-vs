@@ -9,8 +9,8 @@
 ** y duplicarlos para no perder tantos datos
 
 
-##*Los parámetros que cambié quedaron en*##
-
+##*Los parámetros que tengo que chequear*##
+*que coincidan en envolvente_templados.c y emgs_correlation_templates.c*
 * aa.tau=1./1500.
 * savgol-> m=3
 

@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
   
 	for(i=1;i<=POT;i++) data1[i]=(float) av_sound[i];
 	
-	savgol(c1,513,256,256,0,3);
+	savgol(c1,513,256,256,0,4);
     
 	for(index=1;index<=POT;index++) data1[index]=fabs(data1[index]);
 	
