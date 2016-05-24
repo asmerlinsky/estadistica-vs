@@ -22,5 +22,10 @@
 
 ## Calendario
 
-### 23/05/16
-* Voy a volver a extraer los templados a ver si mejoro la estadísitica con unos más adecuados. El emg1 está bien, el resto habría que ver.
+##### 23/05/16
+ Voy a volver a extraer los templados a ver si mejoro la estadísitica con unos más adecuados. El emg1 está bien, el resto habría que ver.
+
+##### 24/05/16
+
+Consultar:
+* Donde comienzan los for, en 0, ó 1?

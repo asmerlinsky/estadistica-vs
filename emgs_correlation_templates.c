@@ -130,11 +130,11 @@ int main(int argc, char *argv[]) {
     
     //calculo de la correlacion entre las señales.
     
-    Nmin=Ndatos1s2;
+    Nmin=Ndatos1s2;//longitud del templado
     
     FILE *ptr;
     ptr=fopen(salida,"w");
-    int cant=0,ultj;
+    int cant=0,ultj=0;
     for(j=2;j<Ndatos2s2-Nmin;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
         
 		double x1bar=0.0,sx1=0.0; //Toma el promedio del templado
