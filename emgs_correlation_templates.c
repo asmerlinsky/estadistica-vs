@@ -41,13 +41,14 @@ int nearpow2(int number){
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2;
+    int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2,golord;
     char string1[20], string2[20];
     char filetemplado[80];
 	char entrada[80];
     char salida[80];
     FILE *pFile;
-    
+    golord=3;
+	aa.tau=0.5/1500.;
 	//asigno que silaba es
 	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
 	printf("perio vale %i \n",perio);
@@ -94,7 +95,6 @@ int main(int argc, char *argv[]) {
 	
     k=0;
     dt=1/10000.;
-    aa.tau=15./1500.;
     //aa.tau=.5/1500.;
 
 	for(i=1;i<=Ndatos2;i++){
@@ -113,12 +113,11 @@ int main(int argc, char *argv[]) {
     float *c2,*data2,*ans2,dum2;
    
     c2=vector(1,POT2); data2=vector(1,POT2); ans2=vector(1,2*POT2);
-
     double *sav2;
     sav2=dvector(1,Ndatos2); 
 	
 	for(i=1;i<=POT2;i++) data2[i]=(float) av_sound2[i];
-    savgol(c2,513,256,256,0,3);
+    savgol(c2,513,256,256,0,golord);
     for(index=1;index<=POT2;index++) data2[index]=fabs(data2[index]);
     convlv(data2,POT2,c2,513,1,ans2);
     
@@ -165,7 +164,10 @@ int main(int argc, char *argv[]) {
 			}
     }
     printf("cantidad de coincidencias=%i \n",cant);
-    free_dvector(av_sound2,1,Ndatos2);
+	printf("tauintegracion: %g\n",aa.tau);   
+	printf("orden del filtro: %i\n",golord);
+ 
+	free_dvector(av_sound2,1,Ndatos2);
     free_dvector(hilb2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);
     free_dvector(sav2,1,Ndatos2);

@@ -43,13 +43,14 @@ int nearpow2(int number){
 
 
 int main(int argc, char *argv[]) {
-	int i,j,k,Ndatos,Ndatoss2, perio;
+	int i,j,k,Ndatos,Ndatoss2, perio,golord;
     char *nomfile;
 	char entrada[20];
 	FILE *pFile;
     nomfile=argv[1];
 	sprintf(entrada,"%s",nomfile);
-    
+    golord=3;
+	aa.tau=0.5/1500.;
 	//CARGA TEMPLATE
 	double *temp;
     Ndatos=filesize(entrada,1);
@@ -84,7 +85,7 @@ int main(int argc, char *argv[]) {
   
     k=0;
     dt=1/10000.;
-    aa.tau=15./1500.;
+    
     //aa.tau=.5/1500.;
 	printf("v[0]= %d y v[1]=%d \n",v[0],v[1]);
     for(i=1;i<=Ndatos;i++){
@@ -111,12 +112,12 @@ int main(int argc, char *argv[]) {
 
     double *sav;
     sav=dvector(1,Ndatos);
-
+	
     // primera
   
 	for(i=1;i<=POT;i++) data1[i]=(float) av_sound[i];
 	
-	savgol(c1,513,256,256,0,3);
+	savgol(c1,513,256,256,0,golord);
     
 	for(index=1;index<=POT;index++) data1[index]=fabs(data1[index]);
 	
@@ -130,7 +131,9 @@ int main(int argc, char *argv[]) {
     vector_to_file(suavtempname,sav,1,Ndatoss2);
     
 	printf("nombreenvolventees: %s\n",suavtempname);         
-    
+    printf("tauintegracion: %g\n",aa.tau);
+	printf("orden del filtro: %i\n",golord);
+
 	free_dvector(av_sound,1,Ndatos);
     free_dvector(hilb,1,Ndatos);
     free_dvector(sav,1,Ndatos);

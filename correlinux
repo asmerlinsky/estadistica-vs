@@ -7,3 +7,4 @@ gcc envolvente_templados.c -lm -o envtempl
 ./envtempl emg5.Sound
 gcc emgs_correlation_templates.c -lm -o correlacionsueno
 ./correlacionsueno ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound envolvente.emg1.Sound.dat
+python3 figuras_p_correlaciones.py
