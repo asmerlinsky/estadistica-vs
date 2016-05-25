@@ -15,7 +15,7 @@ vs=vs/np.max(vs)
 absvs=absvs/np.max(absvs)
 
 m='4'
-tau='0.0003'
+tau='0.01'
 
 plt.figure()
 plt.title('Tau='+tau+', m='+m)

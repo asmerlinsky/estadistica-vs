@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
     	for(i=2;i<Nmin;i++){x2bar+=sav2[i+j];} 
     	x2bar /= (Nmin-2); 
     	*/
-		double sx1=0.0,sx2=0.0;
+		double sx1=0.0,sx2=0.0,r=0.0;
 		for(i = 2; i < Nmin; i++) {sx1 += (emg1[i]*emg1[i]);} //Resta el promedio
     	sx1 = sqrt((sx1 / (Nmin-2)));// y toma una especie de norma de la señal con promedio 0			
 
@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
 		for(i = 2; i < Nmin; i++) {sx2 += (sav2[i+j]*sav2[i+j]);}//idem
     	sx2 = sqrt((sx2 / (Nmin-2)));
     
-    	for( i = 2; i < Nmin; i++ ) {r += ((emg1[i] /sx1) * (sav2[i+j]/sx2));}//Hace un producto normalizado(convoluciona)
+    	for( i = 2; i < Nmin; i++ ) {r += ((emg1[i]/sx1) * (sav2[i+j]/sx2));}//Hace un producto normalizado(convoluciona)
     	r /= (Nmin-2);
         
     	fprintf(ptr,"%g\t %d\n",j,r);
@@ -171,6 +171,7 @@ int main(int argc, char *argv[]) {
     free_dvector(hilb2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);
     free_dvector(sav2,1,Ndatos2);
+	free_dvector(emg2,1,Ndatos2);
 
 }
 
