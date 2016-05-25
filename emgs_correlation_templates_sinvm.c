@@ -42,13 +42,12 @@ int nearpow2(int number){
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
     int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2,golord;
-    char string1[20], string2[20];
     char filetemplado[80];
 	char entrada[80];
     char salida[80];
     FILE *pFile;
-    golord=3;
-	aa.tau=0.5/1500.;
+    golord=4;
+	aa.tau=15./1500.;
 	//asigno que silaba es
 	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
 	printf("perio vale %i \n",perio);
@@ -136,7 +135,7 @@ int main(int argc, char *argv[]) {
     ptr=fopen(salida,"w");
     int cant=0,ultj=0;
     for(j=2;j<Ndatos2s2-Nmin;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
-        
+        /*
 		double x1bar=0.0,sx1=0.0; //Toma el promedio del templado
         for(i=2;i<Nmin;i++){x1bar+=emg1[i];}
         x1bar /= (Nmin-2);
@@ -144,15 +143,16 @@ int main(int argc, char *argv[]) {
     	double x2bar=0.0, sx2=0.0,r=0.0; //Toma el promedio de la señal
     	for(i=2;i<Nmin;i++){x2bar+=sav2[i+j];} 
     	x2bar /= (Nmin-2); 
-    	
-		for(i = 2; i < Nmin; i++) {sx1 += (emg1[i] - x1bar) * (emg1[i] - x1bar);} //Resta el promedio
+    	*/
+		double sx1=0.0,sx2=0.0;
+		for(i = 2; i < Nmin; i++) {sx1 += (emg1[i]*emg1[i]);} //Resta el promedio
     	sx1 = sqrt((sx1 / (Nmin-2)));// y toma una especie de norma de la señal con promedio 0			
 
     	
-		for(i = 2; i < Nmin; i++) {sx2 += (sav2[i+j] - x2bar) * (sav2[i+j] - x2bar);}//idem
+		for(i = 2; i < Nmin; i++) {sx2 += (sav2[i+j]*sav2[i+j]);}//idem
     	sx2 = sqrt((sx2 / (Nmin-2)));
     
-    	for( i = 2; i < Nmin; i++ ) {r += (((emg1[i] - x1bar)/sx1) * ((sav2[i+j] - x2bar)/sx2));}//Hace un producto normalizado(convoluciona)
+    	for( i = 2; i < Nmin; i++ ) {r += ((emg1[i] /sx1) * (sav2[i+j]/sx2));}//Hace un producto normalizado(convoluciona)
     	r /= (Nmin-2);
         
     	fprintf(ptr,"%g\t %d\n",j,r);

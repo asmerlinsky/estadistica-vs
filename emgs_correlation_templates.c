@@ -47,8 +47,8 @@ int main(int argc, char *argv[]) {
 	char entrada[80];
     char salida[80];
     FILE *pFile;
-    golord=3;
-	aa.tau=0.5/1500.;
+    golord=4;
+	aa.tau=15./1500.;
 	//asigno que silaba es
 	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
 	printf("perio vale %i \n",perio);
@@ -166,7 +166,6 @@ int main(int argc, char *argv[]) {
     printf("cantidad de coincidencias=%i \n",cant);
 	printf("tauintegracion: %g\n",aa.tau);   
 	printf("orden del filtro: %i\n",golord);
- 
 	free_dvector(av_sound2,1,Ndatos2);
     free_dvector(hilb2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);
