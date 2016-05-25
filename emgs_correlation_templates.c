@@ -42,7 +42,6 @@ int nearpow2(int number){
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
     int i,j,k,Ndatos1,Ndatos2,perio,Ndatos2s2,golord;
-    char string1[20], string2[20];
     char filetemplado[80];
 	char entrada[80];
     char salida[80];
