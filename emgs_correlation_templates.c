@@ -46,8 +46,10 @@ int main(int argc, char *argv[]) {
 	char entrada[80];
     char salida[80];
     FILE *pFile;
+
     golord=4;
-	aa.tau=15./1500.;
+	aa.tau=10./1500.;
+
 	//asigno que silaba es
 	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
 	printf("perio vale %i \n",perio);

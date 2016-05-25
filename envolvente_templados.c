@@ -49,8 +49,9 @@ int main(int argc, char *argv[]) {
 	FILE *pFile;
     nomfile=argv[1];
 	sprintf(entrada,"%s",nomfile);
-    golord=4;
-	aa.tau=15./1500.;
+    golord=3;
+	aa.tau=1./1500.;
+
 	//CARGA TEMPLATE
 	double *temp;
     Ndatos=filesize(entrada,1);
