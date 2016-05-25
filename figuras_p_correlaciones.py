@@ -41,4 +41,8 @@ plt.plot(envvs[0:(len(vs)-1)/2],label='envolvente señal')
 plt.plot(corremg1[:,0],'r',label='correlacion')
 plt.legend()
 
+plt.figure()
+plt.title('Tau='+tau+', m='+m)
+plt.plot(envemg1,label='envolvente emg1')
+plt.legend()
 plt.show(block=True)

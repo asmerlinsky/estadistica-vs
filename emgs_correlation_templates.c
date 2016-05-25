@@ -41,7 +41,7 @@ int nearpow2(int number){
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos1,Ndatos2,Ndatos1s2,perio,Ndatos2s2,golord;
+    int i,j,k,Ndatos1,Ndatos2,perio,Ndatos2s2,golord;
     char string1[20], string2[20];
     char filetemplado[80];
 	char entrada[80];
@@ -64,7 +64,6 @@ int main(int argc, char *argv[]) {
     //CARGA EMG1
     double *emg1;
     Ndatos1=filesize(filetemplado,1);
-    Ndatos1s2=Ndatos1/2;
     emg1=dvector(1,Ndatos1);
     file_to_vector(filetemplado,emg1,1,Ndatos1,1,1);
 	printf("templado OK\n");
@@ -75,7 +74,7 @@ int main(int argc, char *argv[]) {
     emg2=dvector(1,Ndatos2);
     file_to_vector(entrada,emg2,1,Ndatos2,1,1);
     printf("sueno OK\n");
-    printf("\tNdatos1sd: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
+    printf("\tNdatos1: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
 	
 	
 	//Hilbert a sueño
@@ -130,7 +129,7 @@ int main(int argc, char *argv[]) {
     
     //calculo de la correlacion entre las señales.
     
-    Nmin=Ndatos1s2;//longitud del templado
+    Nmin=Ndatos1;//longitud del templado
     
     FILE *ptr;
     ptr=fopen(salida,"w");
@@ -170,6 +169,7 @@ int main(int argc, char *argv[]) {
     free_dvector(hilb2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);
     free_dvector(sav2,1,Ndatos2);
+	free_dvector(emg2,1,Ndatos2);
 
 }
 
