@@ -5,6 +5,8 @@ gcc envolvente_templados.c -lm -o envtempl.exe
 ./envtempl.exe emg3.Sound
 ./envtempl.exe emg4.Sound
 ./envtempl.exe emg5.Sound
+./envtempl.exe emg6.Sound
+./envtempl.exe emg7.Sound
 gcc emgs_correlation_templates.c -lm -o correlacionsueno.exe
-./correlacionsueno.exe ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound envolvente.emg1.Sound.dat
+./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg3.Sound.dat
 python3 figuras_p_correlaciones.py

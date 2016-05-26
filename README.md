@@ -6,7 +6,9 @@
 ** siempre pasar los templados ya filtrados
 * Cuando los procese en python tengo que
 ** guardarlos con .Sound
-** y duplicarlos para no perder tantos datos
+** ~~y duplicarlos para no perder tantos datos~~
+** ~~Los programas no duplican nada. Tengo que hacerlo en python si quiero.~~
+** Cambie el programa, ahora no necesito duplicarlos
 
 
 ##*Los parámetros que tengo que chequear*##
@@ -29,3 +31,7 @@
 
 Consultar:
 * Donde comienzan los for, en 0, ó 1?
+
+##### 26/05/16
+Los templados que quedan ahora son de ZF-MCV_2015-12-03_07_10_22_vs_5_band
+Cambie el programa. Ahora los templados no tiene que entrar duplicados

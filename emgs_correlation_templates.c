@@ -38,6 +38,13 @@ int nearpow2(int number){
         return(temp/2);
 }
 
+int nearpow2up(int number){
+ 	int i=0, temp=1;
+	while(temp<number) {temp*=2; i++;}
+        return(temp);
+}
+
+
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
@@ -46,6 +53,7 @@ int main(int argc, char *argv[]) {
 	char entrada[80];
     char salida[80];
     FILE *pFile;
+    
 
     golord=4;
 	aa.tau=10./1500.;
@@ -56,7 +64,6 @@ int main(int argc, char *argv[]) {
 	sprintf(filetemplado,"%s",argv[2]);
 	sprintf(entrada,"%s",argv[1]);
     sprintf(salida,"corremg%i.%s.dat",perio,argv[1]);
-	
 	printf("filetemplado es %s \n", filetemplado);
 	printf("salida es %s \n", salida);	
 	printf("entrada es %s \n", entrada);	
@@ -70,63 +77,65 @@ int main(int argc, char *argv[]) {
 	//carga SUEÑO
     double *emg2;
     Ndatos2=filesize(entrada,1);
-	Ndatos2s2=Ndatos2/2;
-    emg2=dvector(1,Ndatos2);
-    file_to_vector(entrada,emg2,1,Ndatos2,1,1);
+	int POT2up=nearpow2up(Ndatos2);
+	Ndatos2s2=Ndatos2/2; //limpiar
+    //emg2=dvector(1,Ndatos2);
+	emg2=dvector(1,POT2up);    
+	file_to_vector(entrada,emg2,1,Ndatos2,1,1);
+	for(i=Ndatos2;i<=POT2up;i++){emg2[i]=0.0;}
     printf("sueno OK\n");
     printf("\tNdatos1: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
 	
 	
 	//Hilbert a sueño
     double *hilb2;
-    hilb2=dvector(1,Ndatos2);
+    hilb2=dvector(1,POT2up);
 	for(i=1;i<=500;i++) hilb2[i]=0.0; //guarda si cambia LFILT
-	hilbert(emg2,hilb2,Ndatos2);
-    vector_to_file("hilbert.sueno.dat",hilb2,1,Ndatos2s2);
+	hilbert(emg2,hilb2,POT2up);
+    vector_to_file("hilbert.sueno.dat",hilb2,1,Ndatos2);
 
-    printf("ok\n");  
+    printf("hilb ok\n");  
     
 
    //SUAVIZA ENVOLVENTE CON INTEGRACION
     double v2[1],dt, t;
     double *av_sound2;
-    av_sound2=dvector(1,Ndatos2);
+    av_sound2=dvector(1,POT2up);
 	
     k=0;
     dt=1/10000.;
     //aa.tau=.5/1500.;
 
-	for(i=1;i<=Ndatos2;i++){
+	for(i=1;i<=POT2up;i++){
 		aa.beta=hilb2[i];
         rk4(takens,v2,1,t+0.0,dt);
         av_sound2[i]=v2[0];
     }  
    
    
-	vector_to_file("int.sueno.dat",av_sound2,1,Ndatos2s2);
- 
+	vector_to_file("int.sueno.dat",av_sound2,1,Ndatos2);
+    printf("int ok\n");
     
     //SAVITSKY-GOLAY
     int np,nl,nr,ld,m,index,Nmin;
-    int POT2=nearpow2(Ndatos2);
     float *c2,*data2,*ans2,dum2;
    
-    c2=vector(1,POT2); data2=vector(1,POT2); ans2=vector(1,2*POT2);
+    c2=vector(1,POT2up); data2=vector(1,POT2up); ans2=vector(1,2*POT2up);
     double *sav2;
-    sav2=dvector(1,Ndatos2); 
+    sav2=dvector(1,POT2up); 
 	
-	for(i=1;i<=POT2;i++) data2[i]=(float) av_sound2[i];
+	for(i=1;i<=POT2up;i++) data2[i]=(float) av_sound2[i];
     savgol(c2,513,256,256,0,golord);
-    for(index=1;index<=POT2;index++) data2[index]=fabs(data2[index]);
-    convlv(data2,POT2,c2,513,1,ans2);
+    for(index=1;index<=POT2up;index++) data2[index]=fabs(data2[index]);
+    convlv(data2,POT2up,c2,513,1,ans2);
     
-    for(i=2;i<POT2-1;i++) sav2[i]=(double) ans2[i];
+    for(i=2;i<POT2up-1;i++) sav2[i]=(double) ans2[i];
 	char envname[50];
 	strcpy(envname, "envolvente.");
     strcat(envname, entrada);
 	strcat(envname, ".dat");
-    vector_to_file(envname,sav2,1,Ndatos2s2); 
-    
+    vector_to_file(envname,sav2,1,Ndatos2); 
+    printf("sav ok\n");
     //calculo de la correlacion entre las señales.
     
     Nmin=Ndatos1;//longitud del templado
@@ -134,8 +143,7 @@ int main(int argc, char *argv[]) {
     FILE *ptr;
     ptr=fopen(salida,"w");
     int cant=0,ultj=0;
-	
-    for(j=2;j<Ndatos2s2-Nmin;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
+    for(j=2;j<Ndatos2-Nmin;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
 	
 		double x1bar=0.0,sx1=0.0; //Toma el promedio del templado
         for(i=2;i<Nmin;i++){x1bar+=emg1[i];}
@@ -167,11 +175,11 @@ int main(int argc, char *argv[]) {
     printf("cantidad de coincidencias=%d \n",cant);
 	printf("tauintegracion: %g\n",aa.tau);   
 	printf("orden del filtro: %d\n",golord);
-	free_dvector(av_sound2,1,Ndatos2);
-    free_dvector(hilb2,1,Ndatos2);
+	free_dvector(av_sound2,1,POT2up);
+    free_dvector(hilb2,1,POT2up);
     free_dvector(emg1,1,Ndatos1);
-    free_dvector(sav2,1,Ndatos2);
-	free_dvector(emg2,1,Ndatos2);
+    free_dvector(sav2,1,POT2up);
+	free_dvector(emg2,1,POT2up);
 
 }
 

@@ -4,7 +4,10 @@ import numpy as np
 vs=np.loadtxt('ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound')
 absvs=np.abs(vs)
 emg1=np.loadtxt('emg1.Sound')
-#emg2=np.loadtxt('emg2.Sound')
+emg2=np.loadtxt('emg2.Sound')
+emg3=np.loadtxt('emg3.Sound')
+emg4=np.loadtxt('emg4.Sound')
+emg5=np.loadtxt('emg5.Sound')
 absemg1=np.abs(emg1)
 #absemg2=np.abs(emg2)
 envemg1=np.loadtxt('envolvente.emg1.Sound.dat')
@@ -96,33 +99,33 @@ plt.plot(emg1,label='emg1')
 #plt.plot(emg2,label='emg1')
 plt.legend()
 
-plt.show(block=True)
+#plt.show(block=True)
 
 
-fig = plt.figure()
-fig.suptitle("Envolvente templados", fontsize=16)
-ax = plt.subplot("511")
-ax.set_title("env1")
-ax.plot(envemg1)
+#fig = plt.figure()
+#fig.suptitle("Envolvente templados", fontsize=16)
+#ax = plt.subplot("511")
+#ax.set_title("env1")
+#ax.plot(envemg1)
 
-ax = plt.subplot("512")
-ax.set_title("env2")
-ax.plot(envemg2)
-
-
-ax = plt.subplot("513")
-ax.set_title("env3")
-ax.plot(envemg3)
+#ax = plt.subplot("512")
+#ax.set_title("env2")
+#ax.plot(envemg2)
 
 
-ax = plt.subplot("514")
-ax.set_title("env4")
-ax.plot(envemg4)
+#ax = plt.subplot("513")
+#ax.set_title("env3")
+#ax.plot(envemg3)
 
 
-ax = plt.subplot("515")
-ax.set_title("env5")
-ax.plot(envemg5)
+#ax = plt.subplot("514")
+#ax.set_title("env4")
+#ax.plot(envemg4)
+
+
+#ax = plt.subplot("515")
+#ax.set_title("env5")
+#ax.plot(envemg5)
 
 fig = plt.figure()
 fig.suptitle("Templados", fontsize=16)
@@ -148,5 +151,5 @@ ax.plot(emg4)
 ax = plt.subplot("515")
 ax.set_title("emg5")
 ax.plot(emg5)
-plt.show()
+plt.show(block=True)
 
