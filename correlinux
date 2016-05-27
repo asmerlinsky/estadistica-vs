@@ -1,12 +1,12 @@
 #!/bin/bash
-gcc envolvente_templados.c -lm -o envtempl.exe
-./envtempl.exe emg1.Sound
-./envtempl.exe emg2.Sound
-./envtempl.exe emg3.Sound
-./envtempl.exe emg4.Sound
-./envtempl.exe emg5.Sound
-./envtempl.exe emg6.Sound
-./envtempl.exe emg7.Sound
+gcc envolvente_templados.c -lm -o envtempl.exe 10 4
+./envtempl.exe emg1.Sound 10 4
+./envtempl.exe emg2.Sound 10 4
+./envtempl.exe emg3.Sound 10 4
+./envtempl.exe emg4.Sound 10 4
+./envtempl.exe emg5.Sound 10 4
+./envtempl.exe emg6.Sound 10 4
+./envtempl.exe emg7.Sound 10 4
 gcc emgs_correlation_templates.c -lm -o correlacionsueno.exe
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg3.Sound.dat
-python3 figuras_p_correlaciones.py
+./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg3.Sound.dat 10 4
+python3 figuras_p_correlaciones.py 10 4

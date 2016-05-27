@@ -49,14 +49,16 @@ int nearpow2up(int number){
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
     int i,j,k,Ndatos1,Ndatos2,perio,Ndatos2s2,golord;
-    char filetemplado[80];
+    double numerador;
+	char filetemplado[80];
 	char entrada[80];
-    char salida[80];
+    char salida[200];
     FILE *pFile;
-    
+    sscanf(argv[3], "%lf", &numerador); 
+	sscanf(argv[4], "%d", &golord);
 
     golord=4;
-	aa.tau=10./1500.;
+	aa.tau=numerador/1500.;
 
 	//asigno que silaba es
 	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
@@ -86,7 +88,7 @@ int main(int argc, char *argv[]) {
     printf("sueno OK\n");
     printf("\tNdatos1: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
 	
-	
+
 	//Hilbert a sueño
     double *hilb2;
     hilb2=dvector(1,POT2up);
@@ -100,12 +102,12 @@ int main(int argc, char *argv[]) {
    //SUAVIZA ENVOLVENTE CON INTEGRACION
     double v2[1],dt, t;
     double *av_sound2;
-    av_sound2=dvector(1,POT2up);
-	
+	av_sound2=dvector(1,POT2up);
+	v2[0]=0.0;
     k=0;
     dt=1/10000.;
     //aa.tau=.5/1500.;
-
+	
 	for(i=1;i<=POT2up;i++){
 		aa.beta=hilb2[i];
         rk4(takens,v2,1,t+0.0,dt);
@@ -141,7 +143,9 @@ int main(int argc, char *argv[]) {
     Nmin=Ndatos1;//longitud del templado
     
     FILE *ptr;
+
     ptr=fopen(salida,"w");
+	
     int cant=0,ultj=0;
     for(j=2;j<Ndatos2-Nmin;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
 	
@@ -170,6 +174,7 @@ int main(int argc, char *argv[]) {
             fprintf(pFile,"%d\t %g\t %s\t %d,%i\n",j,r,entrada,perio,cant);
 			fclose(pFile);			
 			ultj=j;
+			
 			}
     }
     printf("cantidad de coincidencias=%d \n",cant);

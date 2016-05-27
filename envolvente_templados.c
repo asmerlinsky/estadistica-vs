@@ -46,11 +46,15 @@ int main(int argc, char *argv[]) {
 	int i,j,k,Ndatos,Ndatoss2, perio,golord;
     char *nomfile;
 	char entrada[40];
+	double numerador;
 	FILE *pFile;
     nomfile=argv[1];
 	sprintf(entrada,"%s",nomfile);
-    golord=4;
-	aa.tau=10./1500.;
+	sscanf(argv[2], "%lf", &numerador); 
+	sscanf(argv[3], "%d", &golord);
+	
+    //golord=4;
+	aa.tau=numerador/1500.;
 
 	//CARGA TEMPLATE
 	double *temp;
@@ -88,7 +92,7 @@ int main(int argc, char *argv[]) {
     dt=1/10000.;
     
     //aa.tau=.5/1500.;
-	printf("v[0]= %d y v[1]=%d \n",v[0],v[1]);
+	printf("v[0]= %d y v[1]=%d \n",v[0]=0.0,v[1]=0.0);
     for(i=1;i<=Ndatos;i++){
 		aa.beta=hilb[i];
         rk4(takens,v,1,t+0.0,dt);
