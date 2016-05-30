@@ -50,8 +50,8 @@ int nearpow2up(int number){
 int main(int argc, char *argv[]) {
     int i,j,k,Ndatos1,Ndatos2,perio,Ndatos2s2,golord;
     double numerador;
-	char filetemplado[80];
-	char entrada[80];
+	char filetemplado[100];
+	char entrada[100];
     char salida[200];
     FILE *pFile;
     sscanf(argv[3], "%lf", &numerador); 
@@ -68,8 +68,7 @@ int main(int argc, char *argv[]) {
     sprintf(salida,"corremg%i.%s.dat",perio,argv[1]);
 	printf("filetemplado es %s \n", filetemplado);
 	printf("salida es %s \n", salida);	
-	printf("entrada es %s \n", entrada);	
-	
+	printf("entrada es %s \n", entrada);
     //CARGA EMG1
     double *emg1;
     Ndatos1=filesize(filetemplado,1);
@@ -107,7 +106,6 @@ int main(int argc, char *argv[]) {
     k=0;
     dt=1/10000.;
     //aa.tau=.5/1500.;
-	
 	for(i=1;i<=POT2up;i++){
 		aa.beta=hilb2[i];
         rk4(takens,v2,1,t+0.0,dt);
@@ -130,9 +128,10 @@ int main(int argc, char *argv[]) {
     savgol(c2,513,256,256,0,golord);
     for(index=1;index<=POT2up;index++) data2[index]=fabs(data2[index]);
     convlv(data2,POT2up,c2,513,1,ans2);
+    for(i=1;i<POT2up;i++) sav2[i]=(double) ans2[i];
     
-    for(i=2;i<POT2up-1;i++) sav2[i]=(double) ans2[i];
-	char envname[50];
+
+	char envname[100];
 	strcpy(envname, "envolvente.");
     strcat(envname, entrada);
 	strcat(envname, ".dat");
@@ -143,7 +142,6 @@ int main(int argc, char *argv[]) {
     Nmin=Ndatos1;//longitud del templado
     
     FILE *ptr;
-
     ptr=fopen(salida,"w");
 	
     int cant=0,ultj=0;

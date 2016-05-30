@@ -45,7 +45,7 @@ int nearpow2(int number){
 int main(int argc, char *argv[]) {
 	int i,j,k,Ndatos,Ndatoss2, perio,golord;
     char *nomfile;
-	char entrada[40];
+	char entrada[50];
 	double numerador;
 	FILE *pFile;
     nomfile=argv[1];
@@ -63,12 +63,12 @@ int main(int argc, char *argv[]) {
     temp=dvector(1,Ndatos);
     file_to_vector(entrada,temp,1,Ndatos,1,1);
 	printf("templado es %s \n", nomfile);
-
+    
 
 
    //CALCULA ENVOLVENTE CON HILBERT
 	double *hilb;
-	char hilbtempname[80], integtempname[80];
+	char hilbtempname[100], integtempname[100];
 	hilb=dvector(1,Ndatos); //este gato inicializa mal
    
 	for(i=1;i<=500;i++) hilb[i]=0.0; //guarda si cambia LFILT
@@ -87,12 +87,11 @@ int main(int argc, char *argv[]) {
 	double v[1],dt, t;
     double *av_sound;
     av_sound=dvector(1,Ndatos);
-  
+    v[0]=0.0;
     k=0;
     dt=1/10000.;
     
     //aa.tau=.5/1500.;
-	printf("v[0]= %d y v[1]=%d \n",v[0]=0.0,v[1]=0.0);
     for(i=1;i<=Ndatos;i++){
 		aa.beta=hilb[i];
         rk4(takens,v,1,t+0.0,dt);
@@ -110,7 +109,7 @@ int main(int argc, char *argv[]) {
 	//SAVITSKY-GOLAY
     int np,nl,nr,ld,m,index,Nmin;
     int POT=nearpow2(Ndatos);
-    char suavtempname[80];
+    char suavtempname[100];
     float *c1,*data1,*ans1,dum1;
    
     c1=vector(1,POT); data1=vector(1,POT); ans1=vector(1,2*POT);
