@@ -97,12 +97,10 @@ int main(int argc, char *argv[]) {
         rk4(takens,v,1,t+0.0,dt);
         av_sound[i]=v[0];
     }
-    printf("tauintegracion: %g\n",aa.tau);
     
 	strcpy(integtempname, "integrado.");
 	strcat(integtempname, nomfile);
 	strcat(integtempname, ".dat");
-	printf("integ ok \n nombreinteg %s \n",integtempname);
 	vector_to_file(integtempname,av_sound,1,Ndatos);
     
 	
@@ -133,10 +131,9 @@ int main(int argc, char *argv[]) {
     strcat(suavtempname, nomfile);
     strcat(suavtempname, ".dat");
     vector_to_file(suavtempname,sav,1,Ndatoss2);
-    
-	printf("nombreenvolventees: %s\n",suavtempname);         
+            
     printf("tauintegracion: %g\n",aa.tau);
-	printf("orden del filtro: %i\n",golord);
+	printf("orden del filtro: %i\n\n\n",golord);
 
 	free_dvector(av_sound,1,Ndatos);
     free_dvector(hilb,1,Ndatos);

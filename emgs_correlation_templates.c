@@ -1,6 +1,7 @@
 //
 //apunta a correlaciones
 //Procesa los archivos de sueño, los templados ya estan procesados
+//Los meto sin duplicar, y agrego ceros al vector para llegar a POT2up(primer potencia de 2 mayor a la cantidad de datos)
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -48,12 +49,13 @@ int nearpow2up(int number){
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos1,Ndatos2,perio,Ndatos2s2,golord;
+    int i,j,k,Ndatos1,Ndatos2,perio,golord;
     double numerador;
 	char filetemplado[100];
 	char entrada[100];
     char salida[200];
     FILE *pFile;
+    //cargo los paremetros que pase por linea de comando
     sscanf(argv[3], "%lf", &numerador); 
 	sscanf(argv[4], "%d", &golord);
 
@@ -62,32 +64,34 @@ int main(int argc, char *argv[]) {
 
 	//asigno que silaba es
 	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
-	printf("perio vale %i \n",perio);
 	sprintf(filetemplado,"%s",argv[2]);
 	sprintf(entrada,"%s",argv[1]);
     sprintf(salida,"corremg%i.%s.dat",perio,argv[1]);
-	printf("filetemplado es %s \n", filetemplado);
-	printf("salida es %s \n", salida);	
-	printf("entrada es %s \n", entrada);
+	printf("templado es %s \n", filetemplado);
+	printf("entrada es %s \n", entrada);	
+
+
     //CARGA EMG1
     double *emg1;
     Ndatos1=filesize(filetemplado,1);
     emg1=dvector(1,Ndatos1);
     file_to_vector(filetemplado,emg1,1,Ndatos1,1,1);
+	printf("perio vale %i \n",perio);
 	printf("templado OK\n");
+	
+	
 	//carga SUEÑO
     double *emg2;
     Ndatos2=filesize(entrada,1);
 	int POT2up=nearpow2up(Ndatos2);
-	Ndatos2s2=Ndatos2/2; //limpiar
-    //emg2=dvector(1,Ndatos2);
-	emg2=dvector(1,POT2up);    
+    
+    emg2=dvector(1,POT2up);    
 	file_to_vector(entrada,emg2,1,Ndatos2,1,1);
 	for(i=Ndatos2;i<=POT2up;i++){emg2[i]=0.0;}
     printf("sueno OK\n");
-    printf("\tNdatos1: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
+    
+    printf("Ndatos1: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
 	
-
 	//Hilbert a sueño
     double *hilb2;
     hilb2=dvector(1,POT2up);
@@ -137,10 +141,10 @@ int main(int argc, char *argv[]) {
 	strcat(envname, ".dat");
     vector_to_file(envname,sav2,1,Ndatos2); 
     printf("sav ok\n");
+    
+    
     //calculo de la correlacion entre las señales.
-    
     Nmin=Ndatos1;//longitud del templado
-    
     FILE *ptr;
     ptr=fopen(salida,"w");
 	
@@ -175,9 +179,13 @@ int main(int argc, char *argv[]) {
 			
 			}
     }
+    FILE *cantcorr;//guardo cuanto correlaciono cada templado con el archivo (para analizar mas facil los parámetros optimos. Se puede borrar al correrlo con todos los archivos, o usarlo
+    cantcorr=fopen("ccs.dat","a");
+    fprintf(cantcorr,"%d\t %d\n",perio,cant);
+    fclose(cantcorr);
     printf("cantidad de coincidencias=%d \n",cant);
 	printf("tauintegracion: %g\n",aa.tau);   
-	printf("orden del filtro: %d\n",golord);
+	printf("orden del filtro: %d\n\n\n",golord);
 	free_dvector(av_sound2,1,POT2up);
     free_dvector(hilb2,1,POT2up);
     free_dvector(emg1,1,Ndatos1);

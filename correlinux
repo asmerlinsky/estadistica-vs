@@ -1,12 +1,24 @@
 #!/bin/bash
-gcc envolvente_templados.c -lm -o envtempl.exe 10 4
-./envtempl.exe emg1.Sound 10 4
-./envtempl.exe emg2.Sound 10 4
-./envtempl.exe emg3.Sound 10 4
-./envtempl.exe emg4.Sound 10 4
-./envtempl.exe emg5.Sound 10 4
-./envtempl.exe emg6.Sound 10 4
-./envtempl.exe emg7.Sound 10 4
+gcc envolvente_templados.c -lm -o envtempl.exe
+# Ejecutable templado numerador m
+#con este formato de nombres, van a bien correr los scripts en python, sino hay que ponerse a cambiarlos.
+./envtempl.exe emg1.Sound 5 4
+./envtempl.exe emg2.Sound 5 4
+./envtempl.exe emg3.Sound 5 4
+./envtempl.exe emg4.Sound 5 4
+./envtempl.exe emg5.Sound 5 4
+./envtempl.exe emg6.Sound 5 4
+./envtempl.exe emg7.Sound 5 4
 gcc emgs_correlation_templates.c -lm -o correlacionsueno.exe
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg3.Sound.dat 10 4
-python3 figuras_p_correlaciones.py 10 4
+# Ejecutable     archivo-a-procesar templado    numerador   m
+./correlacionsueno.exe ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound envolvente.emg1.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound envolvente.emg2.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound envolvente.emg3.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound envolvente.emg4.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound envolvente.emg5.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound envolvente.emg6.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound envolvente.emg7.Sound.dat 5 4
+#los argumentos del script son: numerador m cantidadtemplados(tienen que estar ordenados del 1 al #detemplados que haya)
+#ver que el archivo de señal completa en el script sea el que sea quiere comparar
+python3 figuras_correlaciones_todos_emgs.py 5 4 7
+
