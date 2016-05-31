@@ -7,40 +7,40 @@
 
 
 ##*Recordar*
-* Tratar de tener siempre los mismos parámetros (más facil ahora que los meto por linea de comando)
-* En emgs_correlation_templates.c
-··* Chequear que coincidan tau y m en los programas 
-··* siempre pasar los templados ya filtrados
-* Cuando los procese en python tengo que
-··* guardarlos con .Sound(todavia me falta)
-··* ~~y duplicarlos para no perder tantos datos~~
-··* ~~Los programas no duplican nada. Tengo que hacerlo en python si quiero.~~
-··* Cambie el programa, ahora no necesito duplicarlos
+* Tratar de tener siempre los mismos parámetros (más facil ahora que los meto por linea de comando)  
+* En emgs_correlation_templates.c  
+··* Chequear que coincidan tau y m en los programas  
+··* siempre pasar los templados ya filtrados  
+* Cuando los procese en python tengo que  
+··* guardarlos con .Sound(todavia me falta)  
+··* ~~y duplicarlos para no perder tantos datos~~  
+··* ~~Los programas no duplican nada. Tengo que hacerlo en python si quiero.~~  
+··* Cambie el programa, ahora no necesito duplicarlos  
 
 
 
-##*comandos para cmd*
-* gcc envolvente_templados.c -lm -o envtempl & envtempl.exe emg1.Sound & envtempl.exe emg2.Sound
-* envtempl.exe emg1.Sound numerador golord
-* gcc emgs_correlation_templates.c -lm -o correlacionsueno
-* correlacionsueno.exe ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound envolvente.emg1.Sound.dat numerador golord
+###*comandos para cmd*
+* gcc envolvente_templados.c -lm -o envtempl & envtempl.exe emg1.Sound & envtempl.exe emg2.Sound  
+* envtempl.exe emg1.Sound numerador golord  
+* gcc emgs_correlation_templates.c -lm -o correlacionsueno  
+* correlacionsueno.exe ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound envolvente.emg1.Sound.dat numerador golord  
 
-## Calendario
+### Calendario
 
 ##### 23/05/16
- Voy a volver a extraer los templados a ver si mejoro la estadísitica con unos más adecuados. El emg1 está bien, el resto habría que ver.
+ Voy a volver a extraer los templados a ver si mejoro la estadísitica con unos más adecuados. El emg1 está bien, el resto habría que ver.  
 
 
 ##### 26/05/16
-Los templados que quedan ahora son de ZF-MCV_2015-12-03_07_10_22_vs_5_band 
-Cambie el programa. Ahora los templados no tiene que entrar duplicados 
+Los templados que quedan ahora son de ZF-MCV_2015-12-03_07_10_22_vs_5_band   
+Cambie el programa. Ahora los templados no tiene que entrar duplicados  
 
 ##### 27/05/16
-Meto tau y m por linea de comando 
+Meto tau y m por linea de comando  
 
 #####30/05/16
-Los templados que estám ahora corresponden a *ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound*
-cambié los programas para calcular las correlaciones de todas las silabas 
-agregué un script en python para graficarlas. 
-emgs_correlations_templates.c ahora hace el archivo ccs.dat para guardar cuantas veces correlacionó cada sílaba. 
+Los templados que estám ahora corresponden a *ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound*  
+cambié los programas para calcular las correlaciones de todas las silabas  
+agregué un script en python para graficarlas.  
+emgs_correlations_templates.c ahora hace el archivo ccs.dat para guardar cuantas veces correlacionó cada sílaba.  
 

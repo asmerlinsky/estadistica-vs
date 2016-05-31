@@ -57,5 +57,12 @@ for i in range(0,len(emg)):
 	ax.set_title("intemg"+str(i+1))
 	ax.plot(intemg[i])
 	
+fig = plt.figure() #grafico en una sola ventana las señales sin procesar
+fig.suptitle("señal", fontsize=16)
+for i in range(0,len(emg)):
+	ax = plt.subplot(str(len(emg))+"1"+str(i+1))
+	ax.set_title("emg"+str(i+1))
+	ax.plot(emg[i][0:len(envemg[i])])
+
 plt.show(block=True)
 

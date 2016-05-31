@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     sscanf(argv[3], "%lf", &numerador); 
 	sscanf(argv[4], "%d", &golord);
 
-    golord=4;
+    
 	aa.tau=numerador/1500.;
 
 	//asigno que silaba es
@@ -172,7 +172,7 @@ int main(int argc, char *argv[]) {
 		fprintf(ptr,"%d\t %g\n",j,r);
 		
         if(r>0.8){pFile=fopen("resultados.dat","a");
-			if(j-ultj>50){ cant+=1;}			
+			if(j-ultj>800){ cant+=1;}			
             fprintf(pFile,"%d\t %g\t %s\t %d,%i\n",j,r,entrada,perio,cant);
 			fclose(pFile);			
 			ultj=j;
@@ -181,7 +181,8 @@ int main(int argc, char *argv[]) {
     }
     FILE *cantcorr;//guardo cuanto correlaciono cada templado con el archivo (para analizar mas facil los parámetros optimos. Se puede borrar al correrlo con todos los archivos, o usarlo
     cantcorr=fopen("ccs.dat","a");
-    fprintf(cantcorr,"%d\t %d\n",perio,cant);
+    //fprintf(cantcorr,"%d\t %d\n",perio,cant);
+    fprintf(cantcorr,"%d\t %d\t %g\t %d\n",perio,cant,numerador,golord);
     fclose(cantcorr);
     printf("cantidad de coincidencias=%d \n",cant);
 	printf("tauintegracion: %g\n",aa.tau);   

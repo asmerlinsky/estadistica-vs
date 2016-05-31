@@ -20,6 +20,9 @@ for i in range(0,len(corremg)): #hace una figura de correlacion por cada templad
     plt.figure()
     plt.title('correlacion emg'+str(i+1))
     plt.plot(envvs,label='envolvente señal')
+    plt.axvline(x=14395,color='g',linewidth=2)
+    plt.axvline(x=49375,color='g',linewidth=2)    
+    plt.axvline(x=74247,color='g',linewidth=2)    
     plt.plot(corremg[i][:,1],'r',label='correlacion, m='+m+'tau='+tau,linewidth=1)
     plt.legend(loc=4)
 
