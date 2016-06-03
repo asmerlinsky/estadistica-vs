@@ -1,6 +1,6 @@
 # estadistica-vs
 1. Para correr **envolvente_templados.c**
-··* Pasar como argumento por linea de comando: **Templadoaprocesar**(yaduplicado) **numerador**(deltau) **golord*
+··* Pasar como argumento por linea de comando: **Templadoaprocesar** #~~(yaduplicado)~~ **numerador**(deltau) **golord*
 2. Para correr **emgs_correlation_templates.c**
 ··* Pasar como argumento por linea de comando: **archivoaprocesar** **templadoprocesado**(sinduplicar-sale así del programa anterior) **numerador**(del tau) **golord**
 3. Para correr correlinux(o corre.bat en windows), si se quiere cambiar el archivo a correlacionar, hay que cambiar también el archivo en figurastemplados.py y figuras_correlaciones_todos_emgs 
@@ -28,7 +28,7 @@
 ### Calendario
 
 ##### 23/05/16
- Voy a volver a extraer los templados a ver si mejoro la estadísitica con unos más adecuados. El emg1 está bien, el resto habría que ver.  
+ Voy a volver a extraer los templados a ver si mejoro la estadística con unos más adecuados. El emg1 está bien, el resto habría que ver.  
 
 
 ##### 26/05/16
@@ -38,9 +38,11 @@ Cambie el programa. Ahora los templados no tiene que entrar duplicados
 ##### 27/05/16
 Meto tau y m por linea de comando  
 
-#####30/05/16
+##### 30/05/16
 Los templados que estám ahora corresponden a *ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound*  
 cambié los programas para calcular las correlaciones de todas las silabas  
 agregué un script en python para graficarlas.  
 emgs_correlations_templates.c ahora hace el archivo ccs.dat para guardar cuantas veces correlacionó cada sílaba.  
 
+##### 03/06/16
+Los templados ahora van sin duplicar. Creo que el mejor tau es el que había.
