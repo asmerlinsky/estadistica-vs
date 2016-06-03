@@ -3,16 +3,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
-envvs=np.loadtxt('envolvente.ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound.dat')
+
+envvs=np.loadtxt(sys.argv[1])
 envvs=envvs/np.max(envvs)
-canttemp=int(sys.argv[3])
-corremg=[np.loadtxt('corremg1.ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound.dat')]
+canttemp=int(sys.argv[4])
+corremg=[np.loadtxt('corremg1.'+sys.argv[1]+'.dat')]
 
 for i in range(1,canttemp): #cargo los templados
-    corremg.append(np.loadtxt('corremg'+str(i+1)+'.ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound.dat'))
+    corremg.append(np.loadtxt('corremg'+str(i+1)+'.'+sys.argv[1]+'.dat'))
 
-tau="{:.5f}".format(float(sys.argv[1])/1500) 
-m=sys.argv[2]
+tau="{:.5f}".format(float(sys.argv[2])/1500) 
+m=sys.argv[3]
 
 #m='4'
 #tau='0.006'
@@ -20,9 +21,14 @@ for i in range(0,len(corremg)): #hace una figura de correlacion por cada templad
     plt.figure()
     plt.title('correlacion emg'+str(i+1))
     plt.plot(envvs,label='envolvente señal')
-    plt.axvline(x=14395,color='g',linewidth=2)
-    plt.axvline(x=49375,color='g',linewidth=2)    
-    plt.axvline(x=74247,color='g',linewidth=2)    
+    plt.axvline(x=108147,color='g',linewidth=2)
+    plt.axvline(x=29225,color='g',linewidth=2)    
+    plt.axvline(x=47940,color='g',linewidth=2) 
+    plt.axvline(x=82903,color='g',linewidth=2)
+    plt.axvline(x=290710,color='g',linewidth=2)    
+    plt.axvline(x=324235,color='g',linewidth=2)
+    plt.axvline(x=340948,color='g',linewidth=2)        
+    plt.axvline(x=371903,color='g',linewidth=2)
     plt.plot(corremg[i][:,1],'r',label='correlacion, m='+m+'tau='+tau,linewidth=1)
     plt.legend(loc=4)
 

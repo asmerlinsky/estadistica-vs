@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 gcc envolvente_templados.c -lm -o envtempl.exe
 # Ejecutable templado numerador m
 #con este formato de nombres, van a bien correr los scripts en python, sino hay que ponerse a cambiarlos.
