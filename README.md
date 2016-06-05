@@ -46,4 +46,7 @@ emgs_correlations_templates.c ahora hace el archivo ccs.dat para guardar cuantas
 
 ##### 03/06/16
 Los templados ahora van sin duplicar. Creo que el mejor tau es el que había.  
-Probé los templados que saqué de vs19 en vs5. Algunos dan bien. Otros tengo que buscarme otro templado (S1). a S6 le tengo que bajar el umbral, con S3 capaz también sirva eso, aunque puedo buscar otra.  S4 correlaciona por todos lados por la forma misma del templado.
+Probé los templados que saqué de vs19 en vs5. Algunos dan bien. Otros tengo que buscarme otro templado (S1). a S6 le tengo que bajar el umbral, con S3 capaz también sirva eso, aunque puedo buscar otra.  S4 correlaciona por todos lados por la forma misma del templado.  
+
+##### 05/06/16
+Probe con tau=10/1500. No hubo gran diferencia. Definitivamente tengo que cambiar S1, pero tengo que ver cómo la elijo y qué hago con S4

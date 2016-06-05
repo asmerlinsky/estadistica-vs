@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     char salida[200];
     FILE *pFile;
     //cargo los paremetros que pase por linea de comando
-    sscanf(argv[3], "%lf", &numerador); 
+    sscanf(argv[3], "%lf", &numerador);
 	sscanf(argv[4], "%d", &golord);
 
     
