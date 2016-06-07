@@ -13,14 +13,14 @@ gcc envolvente_templados.c -lm -o envtempl.exe
 ./envtempl.exe emg7.Sound 5 4
 gcc emgs_correlation_templates.c -lm -o correlacionsueno.exe
 # Ejecutable     archivo-a-procesar templado    numerador   m
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg1.Sound.dat 5 4
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg2.Sound.dat 5 4
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg3.Sound.dat 5 4
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg4.Sound.dat 5 4
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg5.Sound.dat 5 4
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg6.Sound.dat 5 4
-./correlacionsueno.exe ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound envolvente.emg7.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound envolvente.emg1.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound envolvente.emg2.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound envolvente.emg3.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound envolvente.emg4.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound envolvente.emg5.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound envolvente.emg6.Sound.dat 5 4
+./correlacionsueno.exe ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound envolvente.emg7.Sound.dat 5 4
 #los argumentos del script son: numerador m cantidadtemplados(tienen que estar ordenados del 1 al #detemplados que haya)
 #ver que el archivo de señal completa en el script sea el que sea quiere comparar
-python3 figuras_correlaciones_todos_emgs.py ZF-MCV_2015-12-03_07_10_22_vs_5_band.Sound 5 4 7
+python3 figuras_correlaciones_todos_emgs.py ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound 5 4 7
 
