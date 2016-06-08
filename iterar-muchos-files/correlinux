@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+gcc envolvente_templados.c -lm -o envtempl.exe
+# Ejecutable templado numerador m
+
+for f in emg*.Sound  #paso por todos los archivos con ese nombre.
+     do ./envtempl.exe $f
+done
+
+gcc emgs_correlation_templates.c -lm -o correlacionsueno.exe
+
+ap=0
+numfiles=$(ls paraprocesar/ZF*.Sound | wc -l)
+for f in paraprocesar/ZF*.Sound
+    do for s in envolvente.emg*.Sound.dat
+                 # Ejecutable     archivo-a-procesar templado
+        do echo $ap de $numfiles archivos procesados
+        ./correlacionsueno.exe $f $s
+    done
+    ((ap+=1))
+done
+
+#los argumentos del script son: -numerador -m -criterio -cantidadtemplados(tienen que estar ordenados del 1 al #detemplados que haya)
+#ver que el archivo de señal completa en el script sea el que sea quiere comparar
+#python3 figuras_correlaciones_todos_emgs.py ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound 5 4 1 7
+
