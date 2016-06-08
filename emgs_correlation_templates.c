@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
 
 	//asigno que silaba es
 	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
+    printf("perio=%d\n",perio);
 	sprintf(filetemplado,"%s",argv[2]);
 	sprintf(entrada,"%s",argv[1]);
     sprintf(salida,"corremg%i.%s.dat",perio,argv[1]);

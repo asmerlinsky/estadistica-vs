@@ -3,12 +3,13 @@ set -e
 
 gcc envolvente_templados.c -lm -o envtempl.exe
 # Ejecutable templado numerador m
-#con este formato de nombres, van a bien correr los scripts en python, sino hay que ponerse a cambiarlos.
-./envtempl.exe emg1.Sound 10 4
-./envtempl.exe emg2.Sound 10 4
-./envtempl.exe emg3.Sound 10 4
-./envtempl.exe emg4.Sound 10 4
-./envtempl.exe emg5.Sound 10 4
-./envtempl.exe emg6.Sound 10 4
-./envtempl.exe emg7.Sound 10 4
-python3 figurastemplados.py 7
+# con este formato de nombres, van a bien correr los scripts en python, sino hay que ponerse a cambiarlos.
+./envtempl.exe emg11.Sound 10 4
+./envtempl.exe emg12.Sound 10 4
+./envtempl.exe emg13.Sound 10 4
+./envtempl.exe emg14.Sound 10 4
+./envtempl.exe emg15.Sound 10 4
+./envtempl.exe emg16.Sound 10 4
+./envtempl.exe emg17.Sound 10 4
+# los argumentos son -criterio -cantidadtemplados
+python3 figurastemplados.py 1 7

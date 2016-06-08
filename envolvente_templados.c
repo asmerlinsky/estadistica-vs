@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     sprintf(entrada,"%s",nomfile);
     sscanf(argv[2], "%lf", &numerador); 
     sscanf(argv[3], "%d", &golord);
-    
+    printf("nomfile=%s\n",entrada);
     //golord=4;
     aa.tau=numerador/1500.;
 
