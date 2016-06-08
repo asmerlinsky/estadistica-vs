@@ -1,152 +1,74 @@
+##ingresar por linea de comando cantidad de templados a graficar
+
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
-vs=np.loadtxt('ZF-MCV_2015-12-01_13_13_49_vs_29_band.Sound')
+#cargo la señal, y los archivos correspondientes al primer templado y los normalizo
+criterio=sys.argv[1]
+canttemp=int(sys.argv[2])
+vs=np.loadtxt('ZF-MCV_2015-12-04_06_51_28_vs_19_band.Sound')
 absvs=np.abs(vs)
-emg1=np.loadtxt('emg1.Sound')
-#emg2=np.loadtxt('emg2.Sound')
-absemg1=np.abs(emg1)
-#absemg2=np.abs(emg2)
-envemg1=np.loadtxt('envolvente.emg1.Sound.dat')
-#envemg2=np.loadtxt('envolvente.emg2.Sound.dat')
-hilbemg1=np.loadtxt('hilbert.emg1.Sound.dat')
-#hilbemg2=np.loadtxt('hilbert.emg2.Sound.dat')
-intemg1=np.loadtxt('integrado.emg1.Sound.dat')
-#intemg2=np.loadtxt('integrado.emg2.Sound.dat')
-
-hilbemg1=hilbemg1/np.max(hilbemg1)
-#hilbemg2=hilbemg2/np.max(hilbemg2)
-
-intemg1=intemg1/np.max(intemg1)
-#intemg2=intemg2/np.max(intemg2)
-
-envemg1=envemg1/np.max(envemg1)
-#envemg2=envemg2/np.max(envemg2)
-
-emg1=emg1/np.max(emg1)
-#emg2=emg2/np.max(emg2)
-
-absemg1=absemg1/np.max(absemg1)
-#absemg2=absemg2/np.max(absemg2)
+emg=[np.loadtxt('emg'+criterio+'1.Sound')]
+envemg=[np.loadtxt('envolvente.emg'+criterio+'1.Sound.dat')]
+envemg[0]=envemg[0]/np.max(envemg[0])
+absemg=[np.abs(emg[0])]
+absmax=np.max(absemg[0])
+absemg[0]=absemg[0]/absmax
+emg[0]=emg[0]/absmax
+hilbemg=[np.loadtxt('hilbert.emg'+criterio+'1.Sound.dat')]
+hilbemg[0]=hilbemg[0]/np.max(hilbemg[0])
+intemg=[np.loadtxt('integrado.emg'+criterio+'1.Sound.dat')]
+intemg[0]=intemg[0]/np.max(intemg[0])
 
 
 
-plt.figure()
-plt.title('abs vs')
-#plt.xlim(0,len(envolvente))
-plt.plot(absvs,label='absvs')
-plt.legend()
+for i in range(1,canttemp): #cargo todos los demas y los normalizo
+    print('cargo:'+'emg'+criterio+str(i+1)+'.Sound')
+    emg.append(np.loadtxt('emg'+criterio+str(i+1)+'.Sound'))
+    envemg.append(np.loadtxt('envolvente.emg'+criterio+str(i+1)+'.Sound.dat'))
+    hilbemg.append(np.loadtxt('hilbert.emg'+criterio+str(i+1)+'.Sound.dat'))
+    intemg.append(np.loadtxt('integrado.emg'+criterio+str(i+1)+'.Sound.dat'))
+    absemg.append(np.abs(emg[i]))
+    absmax=np.max(absemg[i])
+    absemg[i]=absemg[i]/absmax
+    emg[i]=emg[i]/absmax
+    envemg[i]=envemg[i]/np.max(envemg[i])
+    hilbemg[i]=hilbemg[i]/np.max(hilbemg[i])
+    intemg[i]=intemg[i]/np.max(intemg[i])
 
 
-plt.figure()
-plt.title('emg1 todos')
-plt.plot(absemg1,label='absemg1')
-plt.plot(envemg1,label='envemg1')
-plt.plot(hilbemg1,label='hilbemg1')
-plt.plot(intemg1,label='intemg1')
-plt.legend()
+print('largo emg=\n',len(emg[0]))
+print('largo envolvente=\n',len(envemg[0]))
+print('largo hilbert=\n',len(hilbemg[0]))
+print('largo integrado=\n',len(intemg[0]))
+for i in range(0,len(emg)): #grafico el abs de los templados y su envolvente
+    plt.figure()
+    plt.title('emg'+criterio+str(i+1))
+    plt.plot(emg[i],label='absemg')
+    plt.plot(envemg[i],'r',label='envolvente',linewidth=2)
+    plt.legend()
 
-#plt.figure()
-#plt.title('emg2 todos')
-#plt.plot(absemg2,label='absemg2')
-#plt.plot(envemg2,label='envemg2')
-#plt.plot(hilbemg2,label='hilbemg2')
-#plt.plot(intemg2,label='intemg2')
-#plt.legend()
-
-plt.figure()
-plt.title('hilb emgs')
-plt.plot(hilbemg1,label='hilbemg1')
-#plt.plot(hilbemg2,label='hilbemg2')
-plt.plot(absemg1,label='absemg1')
-#plt.plot(absemg2,label='absemg2')
-plt.legend()
-
-plt.figure()
-plt.title('int emgs')
-plt.plot(intemg1,label='intemg1')
-#plt.plot(intemg2,label='intemg2')
-plt.plot(absemg1,label='absemg1')
-#plt.plot(absemg2,label='absemg2')
-plt.legend()
-
-plt.figure()
-plt.title('env emgs')
-plt.plot(envemg1,label='envemg1')
-#plt.plot(envemg2,label='envemg2')
-plt.plot(absemg1,label='absemg1')
-#plt.plot(absemg2,label='absemg2')
-plt.legend()
-
-plt.figure()
-plt.title('abs emgs')
-plt.plot(absemg1,label='absemg1')
-#plt.plot(absemg2,label='absemg2')
-plt.legend()
-
-plt.figure()
-plt.title('vs')
-#plt.xlim(0,len(envolvente))
-plt.plot(vs,label='vs')
-plt.legend()
-
-plt.figure()
-plt.title('emgs')
-plt.plot(emg1,label='emg1')
-#plt.plot(emg2,label='emg1')
-plt.legend()
+fig = plt.figure() #grafico en una sola ventana los hilberts
+fig.suptitle("Hilberts criterio "+criterio, fontsize=16)
+for i in range(0,len(emg)): 
+    ax = plt.subplot(str(len(emg))+"1"+str(i+1))
+    ax.set_title("hilbemg"+str(i+1))
+    ax.plot(hilbemg[i])
+    
+fig = plt.figure() #grafico en una sola ventana los integrados de la señal
+fig.suptitle("Integrados criterio "+criterio, fontsize=16)
+for i in range(0,len(emg)):
+    ax = plt.subplot(str(len(emg))+"1"+str(i+1))
+    ax.set_title("intemg"+str(i+1))
+    ax.plot(intemg[i])
+    
+fig = plt.figure() #grafico en una sola ventana las señales sin procesar
+fig.suptitle("señal", fontsize=16)
+for i in range(0,len(emg)):
+    ax = plt.subplot(str(len(emg))+"1"+str(i+1))
+    ax.set_title("emg"+str(i+1))
+    ax.plot(emg[i][0:len(envemg[i])])
 
 plt.show(block=True)
-
-
-fig = plt.figure()
-fig.suptitle("Envolvente templados", fontsize=16)
-ax = plt.subplot("511")
-ax.set_title("env1")
-ax.plot(envemg1)
-
-ax = plt.subplot("512")
-ax.set_title("env2")
-ax.plot(envemg2)
-
-
-ax = plt.subplot("513")
-ax.set_title("env3")
-ax.plot(envemg3)
-
-
-ax = plt.subplot("514")
-ax.set_title("env4")
-ax.plot(envemg4)
-
-
-ax = plt.subplot("515")
-ax.set_title("env5")
-ax.plot(envemg5)
-
-fig = plt.figure()
-fig.suptitle("Templados", fontsize=16)
-ax = plt.subplot("511")
-ax.set_title("emg1")
-ax.plot(emg1)
-
-ax = plt.subplot("512")
-ax.set_title("emg2")
-ax.plot(emg2)
-
-
-ax = plt.subplot("513")
-ax.set_title("emg3")
-ax.plot(emg3)
-
-
-ax = plt.subplot("514")
-ax.set_title("emg4")
-ax.plot(emg4)
-
-
-ax = plt.subplot("515")
-ax.set_title("emg5")
-ax.plot(emg5)
-plt.show()
 
