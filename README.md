@@ -1,21 +1,21 @@
 # estadistica-vs
 1. Para correr **envolvente_templados.c**
-··* Pasar como argumento por linea de comando: **Templadoaprocesar** #~~(yaduplicado)~~ **numerador**(deltau) **golord*
+  * Pasar como argumento por linea de comando: **Templadoaprocesar** #~~(yaduplicado)~~ **numerador**(deltau) **golord*
 2. Para correr **emgs_correlation_templates.c**
-··* Pasar como argumento por linea de comando: **archivoaprocesar** **templadoprocesado**(sinduplicar-sale así del programa anterior) **numerador**(del tau) **golord**
+  * Pasar como argumento por linea de comando: **archivoaprocesar** **templadoprocesado**(sinduplicar-sale así del programa anterior) **numerador**(del tau) **golord**
 3. Para correr correlinux(o corre.bat en windows), si se quiere cambiar el archivo a correlacionar, hay que cambiar también el archivo en figurastemplados.py y figuras_correlaciones_todos_emgs 
 
 
 ##*Recordar*
 * Tratar de tener siempre los mismos parámetros (más facil ahora que los meto por linea de comando)  
 * En emgs_correlation_templates.c  
-··* Chequear que coincidan tau y m en los programas  
-··* siempre pasar los templados ya filtrados  
+  * Chequear que coincidan tau y m en los programas  
+  * siempre pasar los templados ya filtrados  
 * Cuando los procese en python tengo que  
-··* guardarlos con .Sound(todavia me falta)  
-··* ~~y duplicarlos para no perder tantos datos~~  
-··* ~~Los programas no duplican nada. Tengo que hacerlo en python si quiero.~~  
-··* Cambie el programa, ahora no necesito duplicarlos  
+  * guardarlos con .Sound(todavia me falta)  
+  * ~~y duplicarlos para no perder tantos datos~~  
+  * ~~Los programas no duplican nada. Tengo que hacerlo en python si quiero.~~  
+  * Cambie el programa, ahora no necesito duplicarlos  
 
 
 
