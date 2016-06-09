@@ -55,20 +55,23 @@ int main(int argc, char *argv[]) {
     char filetemplado[100];
     char ubicacion[100];
     char entrada[100];
+    char cargar[100];
     char salida[200];
     FILE *pFile;
 
 
     //asigno que silaba es
     sscanf(argv[2], "%*[^0123456789]%[^'.']", perio); 
-    sscanf(argv[1],"%[^'/']/%s",ubicacion,entrada);//tener cuidado si lo corro en windows
+    //sscanf(argv[1],"%[^'/']/%s",ubicacion,entrada);//LINUX tener cuidado si lo corro en windows
+    sprintf(entrada,"%s",argv[1]); //WINDOWS
     //printf("ubicacion=%s\n",ubicacion);
     
     
     //printf("perio=%s\n",perio);
     sprintf(filetemplado,"%s",argv[2]);
-    //sprintf(entrada,"%s",argv[1]);
-    sprintf(salida,"%s/corremg%s.%s.dat",ubicacion,perio,entrada);
+  
+    //sprintf(salida,"%s/corremg%s.%s.dat",ubicacion,perio,entrada); LINUX
+    sprintf(salida,"FILTRADOS\\corremg%s.%s.dat",perio,entrada);//WINDOWS
     printf("templado es %s \n", filetemplado);
     printf("entrada es %s \n", entrada);    
     //printf("salida es %s\n",salida);
@@ -83,14 +86,18 @@ int main(int argc, char *argv[]) {
     
     
     //carga SUEÑO
+    strcpy(cargar,"FILTRADOS\\"); //WINDOWS
+    strcat(cargar, entrada);//WINDOWS
     double *emg2;
-    Ndatos2=filesize(entrada,1);
+    //Ndatos2=filesize(entrada,1); LINUX
+    Ndatos2=filesize(cargar,1); //WINDOWS
     int POT2up=nearpow2up(Ndatos2);
     int POT2=nearpow2(Ndatos2);
     
 
     emg2=dvector(1,Ndatos2);
-    file_to_vector(entrada,emg2,1,Ndatos2,1,1);
+    //file_to_vector(entrada,emg2,1,Ndatos2,1,1);//LINUX
+    file_to_vector(cargar,emg2,1,Ndatos2,1,1);//WINDOWS
     
 
     printf("sueno OK\n");
@@ -154,8 +161,9 @@ int main(int argc, char *argv[]) {
     for(i=1;i<POT2;i++) sav2[i]=(double) ans2[i];
     
     char envname[100];
-    strcpy(envname,ubicacion);
-    strcat(envname, "/envolvente.");//chequear que funcione en windows
+    //strcpy(envname,ubicacion); LINUX
+    //strcat(envname, "/envolvente."); LINUX chequear que funcione en windows
+    strcpy(envname,"FILTRADOS\\envolvente."); //WINDOWS
     strcat(envname, entrada);
     strcat(envname, ".dat");
     vector_to_file(envname,sav2,1,POT2); 
