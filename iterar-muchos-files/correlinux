@@ -25,3 +25,13 @@ done
 #ver que el archivo de señal completa en el script sea el que sea quiere comparar
 #python3 figuras_correlaciones_todos_emgs.py ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound 5 4 1 7
 
+
+
+#gcc emg_check_correlacion.c -lm -o corrcheck
+
+
+
+#for f in FILTRADOS/corremg26*.dat #paso por todos los archivos con ese nombre.
+#     do ./corrcheck $f 26 0.745
+#done
+

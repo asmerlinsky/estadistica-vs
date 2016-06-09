@@ -181,7 +181,7 @@ int main(int argc, char *argv[]) {
     else if (strcmp(perio, "16")==0){rmin=0.65;}
     else if (strcmp(perio,"23")==0){rmin=0.62;}
     else if (strcmp(perio,"24")==0){rmin=0.81;}
-    else if (strcmp(perio,"26")==0){rmin=0.81;}
+    else if (strcmp(perio,"26")==0){rmin=0.745;}
     else {rmin=0.8;}
     
     for(j=2;j<POT2-Nmin;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
@@ -214,8 +214,7 @@ int main(int argc, char *argv[]) {
             
             }
     }
-    FILE *cantcorr;//guardo cuanto correlaciono cada templado con el archivo (para analizar mas facil los parámetros optimos. Se puede borrar al correrlo con todos los archivos, o usarlo
-
+    
     printf("cantidad de coincidencias=%d \n",cant);
     printf("tauintegracion: %g\n",aa.tau);   
     printf("orden del filtro: %d\n\n\n",golord);
