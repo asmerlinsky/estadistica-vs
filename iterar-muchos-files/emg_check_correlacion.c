@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
         if(r>rmin){pFile=fopen("resultados.dat","a");
             if(j-ultj>1000){ cant+=1;}     
             printf("tengo r>rmin\n");       
-            fprintf(pFile,"%g\t %g\t %s\t %s\t %i\n",correla[j][1],r,entrada,perio,cant);
+            fprintf(pFile,"%g\t %g\t %s\t %s\t %i\n",correla[j][1],r,nombrearchivo,perio,cant);
             fclose(pFile);            
             ultj=j;
             }
