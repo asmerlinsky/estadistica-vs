@@ -54,3 +54,10 @@ Probe con tau=10/1500. No hubo gran diferencia. Definitivamente tengo que cambia
 #####08/06/16
 Arreglé el problema del filtro y guardo los archivos filtrados como .Sound. Separé el análisis de sílabas y parámetros y los de iteración para hacer estadística. 
 Corren en windows y linux, pero hay que cambiar lineas según (capaz puedo ver más adelante alguna forma de dejarlo compatible con ambos, pero ya fue.
+
+#####12/06/16
+Cambios
+* emg_check_correlacion.c levanta correlaciones y las pasa a resultados (me había equivocado un umbral así que hice esto)  
+* corrre.bat de carpeta iterar tiene el conteo bien.  
+* ahora calculo todas las envolventes primero y despues hago correlaciones, para no guardar la envolvente para cada templado.
+

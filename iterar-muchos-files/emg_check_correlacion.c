@@ -57,8 +57,8 @@ int main(int argc, char *argv[]) {
 
     FILE *pFile;
 
-    sscanf(argv[1],"%[^'/']/%s",ubicacion,entrada);//LINUX tener cuidado si lo corro en windows
-    //sprintf(entrada,"%s",argv[1]); //WINDOWS
+    //sscanf(argv[1],"%[^'/']/%s",ubicacion,entrada);//LINUX tener cuidado si lo corro en windows
+    sprintf(entrada,"%s",argv[1]); //WINDOWS
     sprintf(perio,"%s",argv[2]);
   
     //printf("archivo correlacion es %s \n", entrada);
@@ -66,11 +66,13 @@ int main(int argc, char *argv[]) {
 
     //CARGA CORRELACION
     double **correla;
-    Ndatos=filesize(argv[1],1);
-    correla=dmatrix(1,Ndatos,1,2);
-    file_to_matrix(argv[1], correla, 1, Ndatos, 2);
-    //file_to_vector(argv[1],correla,2,Ndatos,1,1);
-    //printf("perio vale %s \n",perio);
+    sprintf(ubicacion,"FILTRADOS\\%s.",entrada);//WINDOWS
+    Ndatos=filesize(ubicacion,1);//WINDOWS
+    correla=dmatrix(1,Ndatos,1,2);//WINDOWS
+    file_to_matrix(ubicacion, correla, 1, Ndatos, 2);//WINDOWS
+    // Ndatos=filesize(argv[1],1);//LINUX
+    // correla=dmatrix(1,Ndatos,1,2);//LINUX
+    // file_to_matrix(argv[1], correla, 1, Ndatos, 2);//LINUX
     printf("cargo correlacion %sOK\n",entrada);
 
     printf("elemento 10 1 %g\n",correla[10][1]);

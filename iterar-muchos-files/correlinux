@@ -27,11 +27,11 @@ done
 
 
 
-#gcc emg_check_correlacion.c -lm -o corrcheck
+#gcc emg_check_correlacion.c -lm -o corrcheck.exe
 
 
 
-#for f in FILTRADOS/corremg26*.dat #paso por todos los archivos con ese nombre.
-#     do ./corrcheck $f 26 0.745
-#done
+# for f in FILTRADOS/corremg26*.dat #paso por todos los archivos con ese nombre.
+    # do ./corrcheck.exe $f 26 0.745
+# done
 

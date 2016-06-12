@@ -1,5 +1,17 @@
+cd C:\Users\Agustin\Documents\Facultad\Tesis\newfolder
+
+py FILTRO.py
+
+xcopy FILTRADOS C:\Users\Agustin\Documents\Facultad\Tesis\estadistica-vs\iterar-muchos-files\FILTRADOS /i
+
+cd C:\Users\Agustin\Documents\Facultad\Tesis\estadistica-vs\iterar-muchos-files
+
 gcc envolvente_templados.c -lm -o envtempl
 if %errorlevel% neq 0 exit /b %errorlevel%
+
+copy envtempl.exe FILTRADOS\envtempl.exe
+if %errorlevel% neq 0 exit /b %errorlevel%
+
 
 ::Ejecutable templado numerador m
 ::con este formato de nombres, van a bien correr los scripts en python, sino hay que ponerse a cambiarlos.
@@ -8,24 +20,43 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 set count=0
 for %%x in (FILTRADOS/ZF*.Sound) do set /a count+=1
 echo %count%
-@echo on
 
 
-for /r %%i in (emg*.Sound) do (
+for /r %%i in (emg*.Sound) DO (
     envtempl %%~ni.Sound
 )
 
+cd FILTRADOS
+
+for /r %%i in (ZF*.Sound) DO (
+    envtempl %%~ni.Sound
+)
+    
+cd ..
 gcc emgs_correlation_templates.c -lm -o correlacionsueno
 if %errorlevel% neq 0 exit /b %errorlevel%
-set a=0
-FOR  /r %%b in (FILTRADOS/ZF*.Sound) DO (
-  FOR /r %%a in (envolvente.emg*.Sound.dat) DO (
-    echo %a% de %count% archivos
+setlocal EnableDelayedExpansion
+set a=1
+FOR  /r %%b in (FILTRADOS/envolvente.ZF*.dat) DO (
+  FOR /r %%c in (envolvente.emg*.Sound.dat) DO (
+    echo !a! de %count% archivos
     
-    correlacionsueno %%~nb.Sound %%~na.dat 
+    correlacionsueno %%~nb.dat %%~nc.dat 
   )
-  set /a a=%a%+1
+  set /a a=!a!+1
 )
+@echo on
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+REM gcc emg_check_correlacion.c -lm -o corrcheck
+REM if %errorlevel% neq 0 exit /b %errorlevel%
+
+REM FOR  /r %%b in (FILTRADOS/corremg26*.dat) DO (
+  
+    REM corrcheck %%~nb.dat 26 0.745
+
+REM )
+
 
 
 ::Ejecutable     archivo-a-procesar templado    numerador   m

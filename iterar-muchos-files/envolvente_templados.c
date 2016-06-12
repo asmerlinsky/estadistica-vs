@@ -46,24 +46,25 @@ int nearpow2up(int number){
 int main(int argc, char *argv[]) {
     int i,j,k,Ndatos, perio, golord;
     char *nomfile;
-    char entrada[50];
+    char entrada[100];
     FILE *pFile;
     nomfile=argv[1];
     sprintf(entrada,"%s",nomfile);
-    printf("nomfile=%s\n",entrada);
+    //printf("nomfile=%s\n",entrada);
     golord=4;
     
     //CARGA TEMPLATE
     double *temp;
     Ndatos=filesize(entrada,1);
 
-    printf("Ndatos=%d\n",Ndatos);
+    
 
     int POT2up=nearpow2up(Ndatos);
 
     temp=dvector(1,POT2up);
     file_to_vector(entrada,temp,1,Ndatos,1,1);
     printf("templado es %s \n", nomfile);
+    printf("Ndatos=%d\n",Ndatos);
     for(i=Ndatos;i<=POT2up;i++){temp[i]=temp[Ndatos];}
 
 
@@ -122,7 +123,7 @@ int main(int argc, char *argv[]) {
     strcat(suavtempname, ".dat");
     vector_to_file(suavtempname,sav,1,Ndatos);
             
-    printf("tauintegracion: %g\n",aa.tau);
+    printf("tauintegracion: %g\t",aa.tau);
     printf("orden del filtro: %d\n\n\n",golord);
 
     free_dvector(av_sound,1,POT2up);
