@@ -48,9 +48,10 @@ int nearpow2up(int number){
 
 
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos, perio,golord;
+    int i,j,k,Ndatos,golord;
     char *nomfile;
-    char entrada[50];
+    char perio[30];
+    char entrada[60];
     double numerador;
     FILE *pFile;
     nomfile=argv[1];
@@ -75,7 +76,7 @@ int main(int argc, char *argv[]) {
 
    //CALCULA ENVOLVENTE CON HILBERT
     double *hilb;
-    char hilbtempname[100], integtempname[100];
+    char hilbtempname[150], integtempname[150];
     hilb=dvector(1,POT2up);
     //hilb=dvector(1,Ndatos); //este gato inicializa mal
    
@@ -117,7 +118,7 @@ int main(int argc, char *argv[]) {
     //SAVITSKY-GOLAY
     int np,nl,nr,ld,m,index,Nmin;
     //int POT=nearpow2(Ndatos);
-    char suavtempname[100];
+    char suavtempname[200];
     float *c1,*data1,*ans1,dum1;
    
     //c1=vector(1,POT); data1=vector(1,POT); ans1=vector(1,2*POT);

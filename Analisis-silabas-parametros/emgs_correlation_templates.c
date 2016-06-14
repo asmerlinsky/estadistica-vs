@@ -49,9 +49,10 @@ int nearpow2up(int number){
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos1,Ndatos2,perio,golord;
+    int i,j,k,Ndatos1,Ndatos2,golord;
     double numerador;
-	char filetemplado[100];
+	char perio[20];
+    char filetemplado[150];
 	char entrada[100];
     char salida[200];
     FILE *pFile;
@@ -63,11 +64,11 @@ int main(int argc, char *argv[]) {
 	aa.tau=numerador/1500.;
 
 	//asigno que silaba es
-	sscanf(argv[2], "%*[^0123456789]%i%*s", &perio); 
-    printf("perio=%d\n",perio);
+	sscanf(argv[2], "%*[^0123456789]%[^'.']%*s", perio); 
+    printf("perio=%s\n",perio);
 	sprintf(filetemplado,"%s",argv[2]);
 	sprintf(entrada,"%s",argv[1]);
-    sprintf(salida,"corremg%i.%s.dat",perio,argv[1]);
+    sprintf(salida,"corremg%s.%s.dat",perio,argv[1]);
 	printf("templado es %s \n", filetemplado);
 	printf("entrada es %s \n", entrada);	
 
@@ -77,7 +78,7 @@ int main(int argc, char *argv[]) {
     Ndatos1=filesize(filetemplado,1);
     emg1=dvector(1,Ndatos1);
     file_to_vector(filetemplado,emg1,1,Ndatos1,1,1);
-	printf("perio vale %i \n",perio);
+	printf("perio es %s \n",perio);
 	printf("templado OK\n");
 	
 	
@@ -174,7 +175,7 @@ int main(int argc, char *argv[]) {
 		
         if(r>0.8){pFile=fopen("resultados.dat","a");
 			if(j-ultj>800){ cant+=1;}			
-            fprintf(pFile,"%d\t %g\t %s\t %d,%i\n",j,r,entrada,perio,cant);
+            fprintf(pFile,"%d\t %g\t %s\t %s,%d\n",j,r,entrada,perio,cant);
 			fclose(pFile);			
 			ultj=j;
 			
@@ -183,7 +184,7 @@ int main(int argc, char *argv[]) {
     FILE *cantcorr;//guardo cuanto correlaciono cada templado con el archivo (para analizar mas facil los parámetros optimos. Se puede borrar al correrlo con todos los archivos, o usarlo
     cantcorr=fopen("ccs.dat","a");
     //fprintf(cantcorr,"%d\t %d\n",perio,cant);
-    fprintf(cantcorr,"%d\t %d\t %g\t %d\n",perio,cant,numerador,golord);
+    fprintf(cantcorr,"%s\t %d\t %g\t %d\n",perio,cant,numerador,golord);
     fclose(cantcorr);
     printf("cantidad de coincidencias=%d \n",cant);
 	printf("tauintegracion: %g\n",aa.tau);   
