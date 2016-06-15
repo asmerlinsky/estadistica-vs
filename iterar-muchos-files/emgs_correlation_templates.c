@@ -86,7 +86,9 @@ int main(int argc, char *argv[]) {
     
     
     //carga SUEÑO
-    strcpy(cargar,"FILTRADOS\\"); //WINDOWS
+    //strcpy(cargar,"FILTRADOS\\"); //WINDOWS
+    strcpy(cargar,"FILTRADOS/");//SE SUPONE QUE WINDOWS SE BANCA ESTO
+    
     strcat(cargar, entrada);//WINDOWS
     double *emg2;
     //Ndatos2=filesize(entrada,1); LINUX
@@ -111,18 +113,19 @@ int main(int argc, char *argv[]) {
     //Nmin=Ndatos1;//longitud del templado
     FILE *ptr;
    
-    sprintf(salida,"FILTRADOS\\corremg%s.%s",perio,entrada);//WINDOWS
+    //sprintf(salida,"FILTRADOS\\corremg%s.%s",perio,entrada);//WINDOWS
+    sprintf(salida,"FILTRADOS/corremg%s.%s",perio,entrada);//SE SUONE QUE WINDOWS SE BANCA ESTO
     //printf("salida %s\n",salida);
 
     ptr=fopen(salida,"w");
     double rmin;
     int cant=0,ultj=0;
     
-    if(strcmp(perio, "13")==0){rmin=0.58;} //fijo el umbral de correlación según vi de comparar con cantos diurnos
-    else if (strcmp(perio, "16")==0){rmin=0.65;}
-    else if (strcmp(perio,"23")==0){rmin=0.62;}
-    else if (strcmp(perio,"24")==0){rmin=0.81;}
-    else if (strcmp(perio,"26")==0){rmin=0.745;}
+    if(strcmp(perio, "3-BA")==0 || strcmp(perio, "3-B56")==0 || strcmp(perio, "3-B")==0 ){rmin=0.7;} //fijo el umbral de correlación según vi de comparar con cantos diurnos
+    else if (strcmp(perio, "3-56")==0 || strcmp(perio, "3-67")==0 || strcmp(perio, "3-345")==0 || strcmp(perio, "3-3")==0){rmin=0.75;}
+    else if (strcmp(perio,"3-A")==0){rmin=0.65;}
+    else if (strcmp(perio,"3-ABA")==0){rmin=0.5;}
+    else if (strcmp(perio,"3-ABABA")==0){rmin=0.55;}
     else {rmin=0.8;}
     
     for(j=2;j<Ndatos2-Ndatos1;j++){ //barro por todos los puntos de la señal que me permita el largo del templado

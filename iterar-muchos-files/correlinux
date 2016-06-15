@@ -8,18 +8,32 @@ for f in emg*.Sound  #paso por todos los archivos con ese nombre.
      do ./envtempl.exe $f
 done
 
+cp envtempl.exe FILTRADOS/envtempl.exe
+
+
+cd FILTRADOS
+
+for f in ZF*.Sound
+    do ./envtempl.exe $f
+done
+
+cd ..
+
 gcc emgs_correlation_templates.c -lm -o correlacionsueno.exe
 
-ap=0
-numfiles=$(ls paraprocesar/ZF*.Sound | wc -l)
-for f in paraprocesar/ZF*.Sound
-    do for s in envolvente.emg*.Sound.dat
-                 # Ejecutable     archivo-a-procesar templado
-        do echo $ap de $numfiles archivos procesados
-        ./correlacionsueno.exe $f $s
+ap=1
+numfiles=$(ls FILTRADOS/envolvente.ZF*.dat | wc -l)
+
+for f in FILTRADOS/envolvente.ZF*.Sound.dat
+do 
+    for s in envolvente.emg*.Sound.dat                 
+    do         
+        ./correlacionsueno.exe ${f##*/} $s # Ejecutable     archivo-a-procesar templado
     done
+    echo $ap de $numfiles archivos procesados
     ((ap+=1))
 done
+
 
 #los argumentos del script son: -numerador -m -criterio -cantidadtemplados(tienen que estar ordenados del 1 al #detemplados que haya)
 #ver que el archivo de señal completa en el script sea el que sea quiere comparar
@@ -34,4 +48,5 @@ done
 # for f in FILTRADOS/corremg26*.dat #paso por todos los archivos con ese nombre.
     # do ./corrcheck.exe $f 26 0.745
 # done
+
 
