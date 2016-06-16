@@ -22,9 +22,9 @@ def consecutivefirst(data, stepsize=1):
 
 files=glob.glob('datos/ZF*.Sound')
 
-resultados=np.genfromtxt('resultados.dat',names=True,dtype=[('f0', '<i4'), ('f1', '<f8'), ('f2', 'S100'),('f3', '<i4'), ('f4', '<i4')])
-silabas=np.unique(resultados['3'])
-poslabel=np.linspace(0,3.1415,len(silabas))
+resultados=np.genfromtxt('resultados.dat',names=True,dtype=[('f0', '<i4'), ('f1', '<f8'), ('f2', 'S100'),('f3', 'S20'), ('f4', '<i4')])
+templados=np.unique(resultados['3'])
+poslabel=np.linspace(np.pi/len(templados),2*np.pi-np.pi/len(templados),len(templados))
 np.random.shuffle(poslabel)
 poslabelx=np.cos(poslabel)
 poslabely=np.sin(poslabel)
@@ -35,43 +35,21 @@ for archivo in files:
     plt.figure()
     plt.title(os.path.basename(archivo))
     plt.plot(tiempo,data)
-
-    for i in range(0,int(len(silabas)/2)):
+    i=0
+    for key in templados: #i in range(0,int(len(silabas)/2)):
+        i+=1
         nomfile=bytes('envolvente.'+os.path.basename(archivo)+'.dat',encoding="UTF-8")
         try:
-            plt.plot(tiempo[resultados['0'][np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i])]],resultados['1'][np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i])],ms=8,marker='o',label='temp 1'+str(i+1),ls='None')
+            plt.plot(tiempo[resultados['0'][np.logical_and(resultados['2']==nomfile,resultados['3']==key)]],resultados['1'][np.logical_and(resultados['2']==nomfile,resultados['3']==key)],ms=8,marker='o',label='temp'+key.decode("utf-8"),ls='None')
 
 
-            lugares=consecutivefirst(resultados['0'][np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i])])
+            lugares=consecutivefirst(resultados['0'][np.logical_and(resultados['2']==nomfile,resultados['3']==key)])
             for lugar in lugares:
-                resultado=resultados['1'][np.logical_and(np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i]),resultados['0']==lugar)][0]
-                
-                #if (i % 2 == 0):
-                plt.annotate('S'+str(silabas[i]), xy = (tiempo[lugar], resultado), xytext = (tiempo[lugar]+(5000/44150)*poslabelx[i], resultado+0.15*poslabely[i]),arrowprops=dict(facecolor='black', shrink=0.05,fc='b'))        
-                #else:
-                #    plt.annotate('S'+str(silabas[i]), xy = (lugar, resultado), xytext = (lugar-3000, resultado-.1),arrowprops=dict(facecolor='black', shrink=0.05))      
+                resultado=resultados['1'][np.logical_and(np.logical_and(resultados['2']==nomfile,resultados['3']==key),resultados['0']==lugar)][0]
+                plt.annotate('S'+key.decode("utf-8"), xy = (tiempo[lugar], resultado), xytext = (tiempo[lugar]+(5000/44150)*poslabelx[i], resultado+0.15*poslabely[i]),arrowprops=dict(facecolor='black', shrink=0.05,fc='b'))        
+                 
         except:
             pass
-    
-    
-    plt.figure()
-    plt.title(os.path.basename(archivo))
-    plt.plot(tiempo,data)
-    for i in range(int(len(silabas)/2),len(silabas)):
-        nomfile=bytes('envolvente.'+os.path.basename(archivo)+'.dat',encoding="UTF-8")
-        try:
-            plt.plot(tiempo[resultados['0'][np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i])]],resultados['1'][np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i])],ms=8,marker='o',label='temp 1'+str(i+1),ls='None')
-
-
-            lugares=consecutivefirst(resultados['0'][np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i])])
-            for lugar in lugares:
-                resultado=resultados['1'][np.logical_and(np.logical_and(resultados['2']==nomfile,resultados['3']==silabas[i]),resultados['0']==lugar)][0]
-                
-                #if (i % 2 == 0):
-                plt.annotate('S'+str(silabas[i]), xy = (tiempo[lugar], resultado), xytext = (tiempo[lugar]+(5000/44150)*poslabelx[i], resultado+0.15*poslabely[i]),arrowprops=dict(facecolor='black', shrink=0.05,fc='b'))        
-                #else:
-                #    plt.annotate('S'+str(silabas[i]), xy = (lugar, resultado), xytext = (lugar-3000, resultado-.1),arrowprops=dict(facecolor='black', shrink=0.05))      
-        except:
-            pass
+  
 
 plt.show(block=True)
