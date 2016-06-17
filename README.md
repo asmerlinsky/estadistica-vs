@@ -61,3 +61,8 @@ Cambios
 * corrre.bat de carpeta iterar tiene el conteo bien.  
 * ahora calculo todas las envolventes primero y despues hago correlaciones, para no guardar la envolvente para cada templado.
 
+##### 14/06/16
+cambie archivos de analisis-silabas-parametros para que sean un poco más genericos y poder correrlos con la nueva nomeclatura
+
+
+
