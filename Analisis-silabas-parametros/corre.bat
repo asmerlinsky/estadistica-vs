@@ -1,11 +1,11 @@
-REM gcc envolvente_templados.c -lm -o envtempl
-REM if %errorlevel% neq 0 exit /b %errorlevel%
+gcc envolvente_templados.c -lm -o envtempl
+if %errorlevel% neq 0 exit /b %errorlevel%
 
-REM :: Ejecutable templado numerador m
-REM :: con este formato de nombres, van a bien correr los scripts en python, sino hay que ponerse a cambiarlos.
-REM for /r %%i in (emg*.Sound) DO (
-    REM envtempl %%~ni.Sound 10 4
-REM )
+:: Ejecutable templado numerador m
+:: con este formato de nombres, van a bien correr los scripts en python, sino hay que ponerse a cambiarlos.
+for /r %%i in (emg*.Sound) DO (
+    envtempl %%~ni.Sound 10 4
+)
 
 
 

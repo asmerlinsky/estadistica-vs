@@ -36,7 +36,7 @@ for i in range(0,len(corremg)): #hace una figura de correlacion por cada templad
     #plt.axvline(x=340948,color='g',linewidth=2)        
     #plt.axvline(x=371903,color='g',linewidth=2)
     plt.axhline(y=0.8,color='g',linewidth=2)
-    plt.plot(corremg[i][:,0][corremg[i][:,1]>0.5],corremg[i][:,1][corremg[i][:,1]>0.5],'.r',ms=2,label='correlacion, m='+m+'tau='+tau)
+    plt.plot(corremg[i][:,0],corremg[i][:,1],'.r',ms=2,label='correlacion, m='+m+'tau='+tau)
     plt.legend(loc=4)
 
 #fig = plt.figure() Esta parte mete todas las figuras en una sola ventana

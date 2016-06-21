@@ -50,7 +50,7 @@ int nearpow2up(int number){
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
     int i,j,k,Ndatos1,Ndatos2;
-    char perio[5];
+    char perio[20];
     double numerador;
     char filetemplado[100];
     char ubicacion[100];
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 
 
     //asigno que silaba es
-    sscanf(argv[2], "%*[^0123456789]%[^'.']", perio); 
+    sscanf(argv[2], "%*[^0123456789]%[^'.']%*s", perio);
     //sscanf(argv[1],"%[^'/']/%s",ubicacion,entrada);//LINUX tener cuidado si lo corro en windows
     sprintf(entrada,"%s",argv[1]); //WINDOWS
     //printf("ubicacion=%s\n",ubicacion);
@@ -121,11 +121,11 @@ int main(int argc, char *argv[]) {
     double rmin;
     int cant=0,ultj=0;
     
-    if(strcmp(perio, "3-BA")==0 || strcmp(perio, "3-B56")==0 || strcmp(perio, "3-B")==0 ){rmin=0.7;} //fijo el umbral de correlación según vi de comparar con cantos diurnos
-    else if (strcmp(perio, "3-56")==0 || strcmp(perio, "3-67")==0 || strcmp(perio, "3-345")==0 || strcmp(perio, "3-3")==0){rmin=0.75;}
-    else if (strcmp(perio,"3-A")==0){rmin=0.65;}
-    else if (strcmp(perio,"3-ABA")==0){rmin=0.5;}
-    else if (strcmp(perio,"3-ABABA")==0){rmin=0.55;}
+    if(strcmp(perio, "2-3")==0 || strcmp(perio, "2-B5")==0 || strcmp(perio, "2-7")==0 ){rmin=0.6;} //fijo el umbral de correlación según vi de comparar con cantos diurnos
+    else if (strcmp(perio, "2-A")==0 || strcmp(perio, "2-B")==0 || strcmp(perio, "2-56")==0 || strcmp(perio, "2-67")==0){rmin=0.55;}
+    else if (strcmp(perio, "2-45")==0 || strcmp(perio, "2-6")==0){rmin=0.75;}
+    // else if (strcmp(perio,"3-ABA")==0){rmin=0.5;}
+    // else if (strcmp(perio,"3-ABABA")==0){rmin=0.55;}
     else {rmin=0.8;}
     
     for(j=2;j<Ndatos2-Ndatos1;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
         
         if(r>rmin){pFile=fopen("resultados.dat","a");
             if(j-ultj>1000){ cant+=1;}            
-            fprintf(pFile,"%d\t %g\t %s\t %s\t %i\n",j,r,entrada,perio,cant);
+            fprintf(pFile,"%d\t %g\t %s\t %s\t %d\n",j,r,entrada,perio,cant);
             fclose(pFile);            
             ultj=j;
             
@@ -163,6 +163,7 @@ int main(int argc, char *argv[]) {
     
     
     free_dvector(emg2,1,Ndatos2);
+    free_dvector(emg1,1,Ndatos1);
     
 }
 
