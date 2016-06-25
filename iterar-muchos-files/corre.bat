@@ -22,8 +22,8 @@ for %%x in (FILTRADOS/ZF*.Sound) do set /a count+=1
 echo %count%
 
 
-for /r %%i in (emg*.Sound) DO (
-    envtempl %%~ni.Sound
+for /r %i in (emg*.Sound) DO (
+    envtempl %~ni.Sound
 )
 
 cd FILTRADOS
@@ -33,7 +33,7 @@ for /r %%i in (ZF*.Sound) DO (
 )
     
 cd ..
-gcc emgs_correlation_templates.c -lm -o correlacionsueno
+gcc emgs_correlation_templates.c -lm -O3 correlacionsueno
 if %errorlevel% neq 0 exit /b %errorlevel%
 setlocal EnableDelayedExpansion
 set a=1
@@ -71,3 +71,16 @@ REM )
 
 ::py figurastemplados.py 1 7 ::aca introduzco criterio y cantidad de templados que procese y saca figuras solo de los templados
 :: for %%a in (*) do echo %%a para hacer algo variando %%a
+
+
+if %errorlevel% neq 0 exit /b %errorlevel%
+setlocal EnableDelayedExpansion
+set a=1
+for  /r %b in (FILTRADOS/envolvente.ZF*.dat) DO (
+  for /r %c in (envolvente.emg*.Sound.dat) DO (
+    echo !a! de %count% archivos
+    
+    umbrales %~nb.dat %~nc.dat 
+  )
+  set /a a=!a!+1
+)

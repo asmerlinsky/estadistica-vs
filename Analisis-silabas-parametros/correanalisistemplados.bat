@@ -1,4 +1,4 @@
-gcc envolvente_templados.c -lm -o envtempl
+gcc envolvente_templados.c -lm -O3 envtempl
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 :: Ejecutable templado numerador m

@@ -9,7 +9,7 @@ for /r %%i in (emg*.Sound) DO (
 
 
 
-gcc emgs_correlation_templates.c -lm -o correlacionsueno
+gcc emgs_correlation_templates.c -lm -O3 correlacionsueno
 if %errorlevel% neq 0 exit /b %errorlevel%
 ::Ejecutable     archivo-a-procesar templado    numerador   m
 

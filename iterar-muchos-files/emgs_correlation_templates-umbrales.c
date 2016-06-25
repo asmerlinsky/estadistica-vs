@@ -46,6 +46,46 @@ int nearpow2up(int number){
 }
 
 
+char *remove_ext (char* mystr, char dot, char sep) {
+    char *retstr, *lastdot, *lastsep;
+
+    // Error checks and allocate string.
+
+    if (mystr == NULL)
+        return NULL;
+    if ((retstr = malloc (strlen (mystr) + 1)) == NULL)
+        return NULL;
+
+    // Make a copy and find the relevant characters.
+
+    strcpy (retstr, mystr);
+    lastdot = strrchr (retstr, dot);
+    lastsep = (sep == 0) ? NULL : strrchr (retstr, sep);
+
+    // If it has an extension separator.
+
+    if (lastdot != NULL) {
+        // and it's before the extenstion separator.
+
+        if (lastsep != NULL) {
+            if (lastsep < lastdot) {
+                // then remove it.
+
+                *lastdot = '\0';
+            }
+        } else {
+            // Has extension separator with no path separator.
+
+            *lastdot = '\0';
+        }
+    }
+
+    // Return the modified string.
+
+    return retstr;
+}
+
+
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
@@ -111,7 +151,7 @@ int main(int argc, char *argv[]) {
     
     //calculo de la correlacion entre las señales.
     //Nmin=Ndatos1;//longitud del templado
-    FILE *ptr;
+    FILE *ptr,*ptrumbral;
    
     //sprintf(salida,"FILTRADOS\\corremg%s.%s",perio,entrada);//WINDOWS
     sprintf(salida,"FILTRADOS/corremg%s.%s",perio,entrada);//SE SUONE QUE WINDOWS SE BANCA ESTO
@@ -128,6 +168,37 @@ int main(int argc, char *argv[]) {
     // else if (strcmp(perio,"3-ABABA")==0){rmin=0.55;}
     else {rmin=0.8;}
     
+    
+    
+    //levanto el umbral de ruido
+    char umbfile[40];
+    k=0;
+    strcpy(umbfile,"FILTRADOS/");
+    strcat(umbfile,"umbralruido.dat");
+    ptrumbral=fopen(umbfile,"r");
+    
+    double umbruido;
+    char archenfile[50],nomcomparar1[50];
+    char *nomcomparar2;
+    printf("leo el archivo de umbrales\n");
+    printf("entrada es %s\n",entrada);
+    sscanf(entrada, "%*[^'.'].%s", nomcomparar1);
+    nomcomparar2 = remove_ext (nomcomparar1, '.', '/');
+    int bien=2;
+    
+    while((bien==2) & (k==0)){
+       bien=fscanf(ptrumbral,"%s %lf",archenfile,&umbruido);
+       if (strcmp(archenfile,nomcomparar2)==0){k=1;}
+    }
+   fclose(ptrumbral);
+
+    double emg2max=0.0;
+    for(j=1;j<Ndatos2;j++){ //busco maximo de envolvente
+        if (emg2[j]>emg2max){emg2max=emg2[j];}        
+    }
+    
+    umburuido*=emg2max;
+    
     for(j=2;j<Ndatos2-Ndatos1;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
     
         double x1bar=0.0,sx1=0.0; //Toma el promedio del templado
@@ -137,6 +208,8 @@ int main(int argc, char *argv[]) {
         double x2bar=0.0, sx2=0.0,r=0.0; //Toma el promedio de la señal
         for(i=2;i<Ndatos1;i++){x2bar+=emg2[i+j];} 
         x2bar /= (Ndatos1-2); 
+        
+        //for(i=2;i<Ndatos1;i++){x2bar+=emg2[i+j];} 
         
         for(i = 2; i < Ndatos1; i++) {sx1 += (emg1[i] - x1bar) * (emg1[i] - x1bar);} //Resta el promedio
         sx1 = sqrt((sx1 / (Ndatos1-2)));// y toma una especie de norma de la señal con promedio 0            
@@ -164,7 +237,7 @@ int main(int argc, char *argv[]) {
     
     free_dvector(emg2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);
-    
+    printf("termino\n");
 }
 
 

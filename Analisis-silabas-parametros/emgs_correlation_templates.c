@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
 		fprintf(ptr,"%d\t %g\n",j,r);
 		
         if(r>0.8){pFile=fopen("resultados.dat","a");
-			if(j-ultj>800){ cant+=1;}			
+			if(j-ultj>Ndatos1/2){ cant+=1;}			
             fprintf(pFile,"%d\t %g\t %s\t %s,%d\n",j,r,entrada,perio,cant);
 			fclose(pFile);			
 			ultj=j;
