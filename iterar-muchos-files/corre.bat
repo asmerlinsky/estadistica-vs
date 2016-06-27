@@ -6,7 +6,7 @@ xcopy FILTRADOS C:\Users\Agustin\Documents\Facultad\Tesis\estadistica-vs\iterar-
 
 cd C:\Users\Agustin\Documents\Facultad\Tesis\estadistica-vs\iterar-muchos-files
 
-gcc envolvente_templados.c -lm -o envtempl
+gcc envolvente_templados.c -lm -O2 -o envtempl
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 copy envtempl.exe FILTRADOS\envtempl.exe
@@ -33,7 +33,7 @@ for /r %%i in (ZF*.Sound) DO (
 )
     
 cd ..
-gcc emgs_correlation_templates.c -lm -O3 correlacionsueno
+gcc emgs_correlation_templates.c -lm -O2 -o correlacionsueno
 if %errorlevel% neq 0 exit /b %errorlevel%
 setlocal EnableDelayedExpansion
 set a=1
