@@ -20,6 +20,25 @@ HAY QUE INTRODUCIRLO POR LINEA DE COMANDO COMO ARGV
 #include"four1.c"
 #include"lubksb.c"
 #include"ludcmp.c"
+#include <stdbool.h>
+
+
+
+bool match(const char *pattern, const char *candidate, int p, int c) {
+  if (pattern[p] == '\0') {
+    return candidate[c] == '\0';
+  } else if (pattern[p] == '*') {
+    for (; candidate[c] != '\0'; c++) {
+      if (match(pattern, candidate, p+1, c))
+        return true;
+    }
+    return match(pattern, candidate, p+1, c);
+  } else if (pattern[p] != '?' && pattern[p] != candidate[c]) {
+    return false;
+  }  else {
+    return match(pattern, candidate, p+1, c+1);
+  }
+}
 
 
 struct Par {
@@ -44,10 +63,9 @@ int nearpow2up(int number){
 
 
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos, perio, golord;
+    int i,k,Ndatos, golord;
     char *nomfile;
     char entrada[100];
-    FILE *pFile;
     nomfile=argv[1];
     sprintf(entrada,"%s",nomfile);
     //printf("nomfile=%s\n",entrada);
@@ -126,6 +144,37 @@ int main(int argc, char *argv[]) {
     printf("tauintegracion: %g\t",aa.tau);
     printf("orden del filtro: %d\n\n\n",golord);
 
+    
+    
+    
+    if (match("emg*Sound", nomfile, 0, 0)){
+        char perio[20];
+        sscanf(nomfile, "%*[^0123456789]%[^'.']%*s", perio);
+        double rmin;
+        if(strcmp(perio, "2-1")==0) {rmin=0.7;}
+        else if(strcmp(perio, "2-3")==0) {rmin=0.6;}
+        else if(strcmp(perio, "2-4")==0) {rmin=0.7;}
+        else if(strcmp(perio, "2-45")==0) {rmin=0.75;}
+        else if(strcmp(perio, "2-A")==0) {rmin=0.55;}
+        else if(strcmp(perio, "2-B")==0) {rmin=0.55;}
+        else if(strcmp(perio, "2-B5")==0) {rmin=0.6;}
+        else if(strcmp(perio, "2-7")==0) {rmin=0.7;}
+        else if(strcmp(perio, "2-67")==0) {rmin=0.55;}
+        else if(strcmp(perio, "2-5")==0) {rmin=0.75;}
+        else if(strcmp(perio, "2-56")==0) {rmin=0.55;}
+        else if(strcmp(perio, "2-6")==0) {rmin=0.7;}
+        else {
+            fprintf(stderr, "No asignaste umbral a este templado! Exiting...\n");
+            exit(-1);
+        }
+        
+        FILE *pFile;
+        pFile=fopen("datatemplados.dat","a");         
+        fprintf(pFile,"%s\t%d\t%g\n",perio,Ndatos,rmin);
+        fclose(pFile);   
+        
+    }
+    
     free_dvector(av_sound,1,POT2up);
     free_dvector(hilb,1,POT2up);
     free_dvector(sav,1,POT2up);

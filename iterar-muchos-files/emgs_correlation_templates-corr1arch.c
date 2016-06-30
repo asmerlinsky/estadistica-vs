@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
     
 
     //FILE *ptr;
-    FILE *ptrumbral;
+
     sprintf(salida,"FILTRADOS/corremg%s.%s",perio,entrada);//SE SUONE QUE WINDOWS SE BANCA ESTO
     printf("salida %s\n",salida);
 
@@ -144,6 +144,8 @@ int main(int argc, char *argv[]) {
     k=0;
     strcpy(umbfile,"FILTRADOS/");
     strcat(umbfile,"umbralruido.dat");
+    
+    FILE *ptrumbral;
     ptrumbral=fopen(umbfile,"r");
     
     double umbruido;
@@ -155,11 +157,14 @@ int main(int argc, char *argv[]) {
     }
     fclose(ptrumbral);
     
-    double **correla;
-    correla=dmatrix(1,Ndatos2-Ndatos1,1,2);
-    correla[1][0]=1;
-    correla[1][1]=0.0;
+    double *correla;
+    correla=dvector(1,Ndatos2);
+    correla[1]=0.0;
+    
 
+    
+
+    
      //capaz me puedo ahorrar mucho si hago las cuentas solo cuando supero el umbral
     for(j=2;j<Ndatos2-Ndatos1;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
     
@@ -181,8 +186,7 @@ int main(int argc, char *argv[]) {
         for( i = 2; i < Ndatos1; i++ ) {r += (((emg1[i] - x1bar)/sx1) * ((emg2[i+j] - x2bar)/sx2));}//Hace un producto normalizado(convoluciona)
         r /= (Ndatos1-2);
                 
-        correla[j][0]=j;
-        correla[j][1]=r;      
+        correla[j]=r;      
 
             
         if((r>rmin) & (x2bar>umbruido)){pFile=fopen("resultados.dat","a");
@@ -193,11 +197,50 @@ int main(int argc, char *argv[]) {
             
             }
     }
+    for(j=Ndatos2-Ndatos1;j<Ndatos2;j++){correla[j]=0.0;}
     
-    printf("cantidad de coincidencias=%d \n\n\n",cant);
-    matrix_to_file(salida, correla, 1, Ndatos2-Ndatos1,2);
+    // guardo correlaciones en un único archivo
+    char nomcorr[100],nomcorrtemp[100];
+    char buffer[500];
+    FILE *ptrcorr;
+    FILE *ptrcorrtemp;
+    
+    strcpy(nomcorr,"FILTRADOS/corremg.");
+    strcat(nomcorr,entrada);
+    strcpy(nomcorrtemp,"FILTRADOS/corremgtemp.");
+    strcat(nomcorrtemp,entrada);
 
-    free_dmatrix(correla, 1, Ndatos2-Ndatos1, 1, 2);
+    ptrcorr = fopen(nomcorr, "r");
+    ptrcorrtemp=fopen(nomcorrtemp,"w");
+    if (ptrcorr != NULL) { //si existe
+        fgets(buffer, 500, ptrcorr);
+        buffer[strcspn(buffer, "\n")] = 0;
+        fprintf(ptrcorrtemp,"%s\t%s\n",buffer,perio);//guardo el nombre del templado en la primera linea
+        
+        for(j=2;j<Ndatos2;j++){
+            fgets(buffer, 500, ptrcorr);
+            buffer[strcspn(buffer, "\n")] = 0;
+            fprintf(ptrcorrtemp,"%s\t%g\n",buffer,correla[j]);
+        }
+ }
+    else {//si no existe genero posicion y primera correlacion
+        fprintf(ptrcorrtemp,"%s\t%s\n","pos",perio);//guardo el nombre del templado en la primera linea
+        
+        for(j=2;j<Ndatos2;j++){
+            fprintf(ptrcorrtemp,"%d\t%g\n",j,correla[j]);
+        }
+    
+    
+    }
+    
+    
+    fclose(ptrcorr);
+    fclose(ptrcorrtemp);
+    remove(nomcorr);
+    rename(nomcorrtemp,nomcorr);
+    printf("cantidad de coincidencias=%d \n\n\n",cant);
+
+    free_dvector(correla, 1, Ndatos2);
     free_dvector(emg2,1,Ndatos2);
     free_dvector(emg1,1,Ndatos1);
 }

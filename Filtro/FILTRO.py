@@ -36,7 +36,7 @@ directorios=list(set(directorios))
 lugares=np.linspace(1000,120000,80,dtype=int)
 umbralajuste=0.99
 umbralstd=0.01
-r=np.zeros(len(lugares))
+
                  
 for j in range(0,len(directorios)):
     wavs=glob.glob(os.path.join(directorios[j],'*vs*.wav'))
@@ -44,9 +44,11 @@ for j in range(0,len(directorios)):
     n=0
     try:
         file = open(os.path.join(destino,'umbralruido.dat'),  'w+')
+        file.write('0\t1\n')
     except:
         os.mkdir(destino)
         file = open(os.path.join(destino,'umbralruido.dat'),  'w+')
+        file.write('0\t1\n')
     for musculo in wavs:
         devstd=[]
         fs,data=wavfile.read(musculo)
@@ -64,31 +66,31 @@ for j in range(0,len(directorios)):
         np.savetxt(os.path.join(destino,os.path.splitext(os.path.basename(musculo))[0]+'.Sound'),datafilt, fmt='%1.14f')
            
         
-       
+        r=np.zeros(len(lugares))
         i=0
         for puntos in lugares:
             if np.std(datafilt[puntos:puntos+1000])<umbralstd:        
                 r[i]=stats.probplot(datafilt[puntos:puntos+1000], dist="norm")[1][-1]
             i+=1
-                #if (r[i]>umbral:
-                #    devstd.append(np.std(vs[lugares[i]:lugares[i]+1000]))
+             
         lugruido=lugares[r>umbralajuste] #me quedo con los lugares que superan el umbral
         mediaruido=np.zeros(len(lugruido))
         i=0
-        if not lugruido:
-            umbralenv=2*umbralstd*0.0103 
-            print("no hay lugar con r>umbralajuste")
-        else:            
+
+        if lugruido.any():  
             for puntos in lugruido:
                 mediaruido[i]=np.mean(np.abs(datafilt[puntos:puntos+1000]))
                 i+=1
-            umbralenv=2*np.mean(mediaruido)*0.0103  
-
+            umbralenv=3*np.mean(mediaruido)*0.0103  
+        else:
+            umbralenv=3*umbralstd*0.0103 
+            print("no hay lugar con r>umbralajuste")
         
         file.write('envolvente.'+os.path.splitext(os.path.basename(musculo))[0]+'.Sound.dat'+'\t'+str(umbralenv)+'\n')
         n+=1
+
         
     file.close()
-            
-            
-            
+    
+
+    

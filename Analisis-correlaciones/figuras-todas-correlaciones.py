@@ -22,7 +22,7 @@ def consecutive(data, stepsize=1):
 
 files=glob.glob('datos/ZF*772.Sound')
 for i in range(0,len(files)):
-    print("cargo todo lo relacionado con", files[i])
+    print("cargo todas las correlaciones con", files[i])
 
     corrfiles=glob.glob('datos/corremg'+'*'+os.path.basename(files[i])+'.dat')
     #cargo corrfiles

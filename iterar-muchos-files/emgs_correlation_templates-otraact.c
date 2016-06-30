@@ -52,26 +52,24 @@ int nearpow2up(int number){
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
     int i,j,k,Ndatos1,Ndatos2;
-    char perio[20];
+    
     double numerador;
     char filetemplado[100];
     char ubicacion[100];
     char entrada[100];
     char cargar[100];
     char salida[200];
+    char nomcorr[100];
     FILE *pFile;
 
 
 
 
     //asigno que silaba es
-    sscanf(argv[2], "%*[^0123456789]%[^'.']%*s", perio);
-    //sscanf(argv[1],"%[^'/']/%s",ubicacion,entrada);//LINUX tener cuidado si lo corro en windows
     sprintf(entrada,"%s",argv[1]); //WINDOWS
-    //printf("ubicacion=%s\n",ubicacion);
     
-    
-    //printf("perio=%s\n",perio);
+    strcpy(nomcorr,"FILTRADOS/corremg");
+    strcat(nomcorr,entrada);
     sprintf(filetemplado,"%s",argv[2]);
     
     //sprintf(salida,"%s/corremg%s.%s.dat",ubicacion,perio,entrada); LINUX
@@ -80,19 +78,10 @@ int main(int argc, char *argv[]) {
     //printf("entrada es %s \n", entrada);    
     //printf("salida es %s\n",salida);
     printf("perio vale %s \n",perio);
-    //CARGA EMG1
-    double *emg1;
-    Ndatos1=filesize(filetemplado,1);
-    emg1=dvector(1,Ndatos1);
-    file_to_vector(filetemplado,emg1,1,Ndatos1,1,1);
-    
-    printf("templado OK\n");
-    
+
     
     //carga SUEÑO
-    //strcpy(cargar,"FILTRADOS\\"); //WINDOWS
-    strcpy(cargar,"FILTRADOS/");//SE SUPONE QUE WINDOWS SE BANCA ESTO
-    
+    strcpy(cargar,"FILTRADOS/");    
     strcat(cargar, entrada);//WINDOWS
     double *emg2;
     //Ndatos2=filesize(entrada,1); LINUX
@@ -100,8 +89,6 @@ int main(int argc, char *argv[]) {
     Ndatos2=filesize(cargar,1); //WINDOWS
     int POT2up=nearpow2up(Ndatos2);
     int POT2=nearpow2(Ndatos2);
-    
-
     emg2=dvector(1,Ndatos2);
     //file_to_vector(entrada,emg2,1,Ndatos2,1,1);//LINUX
     file_to_vector(cargar,emg2,1,Ndatos2,1,1);//WINDOWS
@@ -109,11 +96,36 @@ int main(int argc, char *argv[]) {
 
     printf("sueno OK\n");
     
-    printf("Ndatos1: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
+    printf("Ndatos1: %d\n",Ndatos1);  
     
-
+    //cargo correlaciones
+    int ncols = 1;
+    char nomcorr[100]
+    buffer[500];
+    FILE *ptrcorr;
+    strcpy(nomcorr,"FILTRADOS/corremg");
+    strcat(nomcorr,entrada);
+    ptrcorr = fopen(nomcorr, "r");
+    fgets(buffer, 500, ptrcorr);
+    i=0
+    while (letra[i]!='\n'){
+        if (letra[i]=='\t'){
+            ++ncols;
+            i+=1;
+        }
+    }
+    //char perios[20];
+    
+    printf("conte %d columnas\n",ncols);
+    
+    
+    
+    int longcorrela;
+    double **correla
+    longcorrela=filesize(cargar,);
+    correla=dmatrix
     //FILE *ptr;
-    FILE *ptrumbral;
+
     sprintf(salida,"FILTRADOS/corremg%s.%s",perio,entrada);//SE SUONE QUE WINDOWS SE BANCA ESTO
     printf("salida %s\n",salida);
 
@@ -144,6 +156,8 @@ int main(int argc, char *argv[]) {
     k=0;
     strcpy(umbfile,"FILTRADOS/");
     strcat(umbfile,"umbralruido.dat");
+    
+    FILE *ptrumbral;
     ptrumbral=fopen(umbfile,"r");
     
     double umbruido;
@@ -155,11 +169,11 @@ int main(int argc, char *argv[]) {
     }
     fclose(ptrumbral);
     
-    double **correla;
-    correla=dmatrix(1,Ndatos2-Ndatos1,1,2);
-    correla[1][0]=1;
-    correla[1][1]=0.0;
 
+
+    
+
+    
      //capaz me puedo ahorrar mucho si hago las cuentas solo cuando supero el umbral
     for(j=2;j<Ndatos2-Ndatos1;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
     
@@ -181,8 +195,7 @@ int main(int argc, char *argv[]) {
         for( i = 2; i < Ndatos1; i++ ) {r += (((emg1[i] - x1bar)/sx1) * ((emg2[i+j] - x2bar)/sx2));}//Hace un producto normalizado(convoluciona)
         r /= (Ndatos1-2);
                 
-        correla[j][0]=j;
-        correla[j][1]=r;      
+        correla[j]=r;      
 
             
         if((r>rmin) & (x2bar>umbruido)){pFile=fopen("resultados.dat","a");
@@ -193,13 +206,16 @@ int main(int argc, char *argv[]) {
             
             }
     }
+    for(j=Ndatos2-Ndatos1;j<Ndatos2;j++){correla[j]=0.0;}
     
-    printf("cantidad de coincidencias=%d \n\n\n",cant);
-    matrix_to_file(salida, correla, 1, Ndatos2-Ndatos1,2);
+    // guardo correlaciones en un único archivo
+    
+    
 
-    free_dmatrix(correla, 1, Ndatos2-Ndatos1, 1, 2);
-    free_dvector(emg2,1,Ndatos2);
-    free_dvector(emg1,1,Ndatos1);
+
+    
+
+    free_dvector(correla, 1, Ndatos2);
 }
 
 

@@ -121,12 +121,24 @@ int main(int argc, char *argv[]) {
     double rmin;
     int cant=0,ultj=0;
     
-    if(strcmp(perio, "2-3")==0 || strcmp(perio, "2-B5")==0 || strcmp(perio, "2-7")==0 ){rmin=0.6;} //fijo el umbral de correlación según vi de comparar con cantos diurnos
-    else if (strcmp(perio, "2-A")==0 || strcmp(perio, "2-B")==0 || strcmp(perio, "2-56")==0 || strcmp(perio, "2-67")==0){rmin=0.55;}
-    else if (strcmp(perio, "2-45")==0 || strcmp(perio, "2-6")==0){rmin=0.75;}
-    // else if (strcmp(perio,"3-ABA")==0){rmin=0.5;}
-    // else if (strcmp(perio,"3-ABABA")==0){rmin=0.55;}
-    else {rmin=0.8;}
+    
+    if(strcmp(perio, "2-1")==0) {rmin=0.7;}
+    else if(strcmp(perio, "2-3")==0) {rmin=0.6;}
+    else if(strcmp(perio, "2-4")==0) {rmin=0.7;}
+    else if(strcmp(perio, "2-45")==0) {rmin=0.75;}
+    else if(strcmp(perio, "2-A")==0) {rmin=0.55;}
+    else if(strcmp(perio, "2-B")==0) {rmin=0.55;}
+    else if(strcmp(perio, "2-B5")==0) {rmin=0.6;}
+    else if(strcmp(perio, "2-7")==0) {rmin=0.7;}
+    else if(strcmp(perio, "2-67")==0) {rmin=0.55;}
+    else if(strcmp(perio, "2-5")==0) {rmin=0.75;}
+    else if(strcmp(perio, "2-56")==0) {rmin=0.55;}
+    else if(strcmp(perio, "2-6")==0) {rmin=0.7;}
+    else {
+        fprintf(stderr, "No asignaste umbral a este templado! Exiting...\n");
+        exit(-1);
+    }
+    
     
     for(j=2;j<Ndatos2-Ndatos1;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
     

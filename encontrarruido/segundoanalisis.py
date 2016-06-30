@@ -11,7 +11,7 @@ kwargs = {'color': 'r', 'linewidth': 2}
 for archivo in files:
     vs=np.loadtxt(archivo)
     envolvente=np.loadtxt('envolvente.'+archivo+'.dat')
-    corr7=np.loadtxt('corremg3-7.envolvente.'+archivo+'.dat')
+    corr7=np.loadtxt('corremg2-4.envolvente.'+archivo+'.dat')
     r=np.zeros(len(lugares))
     devstd=[]
     i=0
@@ -25,14 +25,14 @@ for archivo in files:
     mediaruido=np.zeros(len(lugruido))
     i=0
     
-    if not lugruido:
-        umbralenv=2*0.01*0.0103
+    if not lugruido.any():
+        umbralenv=3*0.01*0.0103
         print("no hay lugar con r>umbralajuste")
     else:
         for puntos in lugruido:
             mediaruido[i]=np.mean(np.abs(vs[puntos:puntos+1000]))
             i+=1 
-        umbralenv=2*np.mean(mediaruido)*0.0103
+        umbralenv=3*np.mean(mediaruido)*0.0103
         
 
     fig=plt.figure()
@@ -42,7 +42,7 @@ for archivo in files:
     
     ax1.plot(([0,len(vs)]),([umbralenv/np.max(envolvente),umbralenv/np.max(envolvente)]),'g',linewidth=2)
     
-    if lugruido:
+    if lugruido.any():
         for i in lugruido:
                 ax1.plot(([i,(i+1000)]),([0.9,0.9]),**kwargs)
         

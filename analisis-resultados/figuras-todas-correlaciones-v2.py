@@ -38,7 +38,7 @@ for archivo in files:
     plt.title(os.path.basename(archivo))
     plt.plot(tiempo,data)
     i=0
-    for key in templados: #i in range(0,int(len(silabas)/2)):
+    for key in templados:
         i+=1
         nomfile=bytes('envolvente.'+os.path.basename(archivo)+'.dat',encoding="UTF-8")
         try:
@@ -52,8 +52,7 @@ for archivo in files:
                 resultado=np.max(superaumbral)
                 lugar=lugares[np.argmax(superaumbral)]
                 
-                #resultado=np.max(resultados['1'][np.logical_and(resultados['2']==nomfile,resultados['3']==key)])
-                #lugar=np.max(resultados['1'][np.logical_and(resultados['2']==nomfile,resultados['3']==key)][primero[j]:ultimo[j]])
+
                 plt.annotate('S'+key.decode("utf-8"), xy = (tiempo[lugar], resultado), xytext = (tiempo[lugar]+(5000/44150)*poslabelx[i], resultado+0.15*poslabely[i]),arrowprops=dict(facecolor='black', shrink=0.05,fc='b'))        
                  
         except:
