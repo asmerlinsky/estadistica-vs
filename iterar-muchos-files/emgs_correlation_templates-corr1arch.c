@@ -51,7 +51,7 @@ int nearpow2up(int number){
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos1,Ndatos2;
+    long i,j,k,Ndatos1,Ndatos2;
     char perio[20];
     double numerador;
     char filetemplado[100];
@@ -109,13 +109,13 @@ int main(int argc, char *argv[]) {
 
     printf("sueno OK\n");
     
-    printf("Ndatos1: %d Ndatos2: %d\n",Ndatos1,Ndatos2);  
+    printf("Ndatos1: %ld Ndatos2: %ld\n",Ndatos1,Ndatos2);  
     
 
     //FILE *ptr;
 
     sprintf(salida,"FILTRADOS/corremg%s.%s",perio,entrada);//SE SUONE QUE WINDOWS SE BANCA ESTO
-    printf("salida %s\n",salida);
+
 
     //ptr=fopen(salida,"w");
     double rmin;
@@ -157,11 +157,11 @@ int main(int argc, char *argv[]) {
     }
     fclose(ptrumbral);
     
-    double *correla;
+    double *correla,*media;
     correla=dvector(1,Ndatos2);
     correla[1]=0.0;
-    
-
+    media=dvector(1,Ndatos2);
+    media[1]=0.0;
     
 
     
@@ -187,11 +187,11 @@ int main(int argc, char *argv[]) {
         r /= (Ndatos1-2);
                 
         correla[j]=r;      
-
+        media[j]=x2bar;
             
         if((r>rmin) & (x2bar>umbruido)){pFile=fopen("resultados.dat","a");
             if(j-ultj>Ndatos1/2){ cant+=1;}            
-            fprintf(pFile,"%d\t %g\t %s\t %s\t %d\n",j,r,entrada,perio,cant);
+            fprintf(pFile,"%ld\t %g\t %s\t %s\t %d\n",j,r,entrada,perio,cant);
             fclose(pFile);            
             ultj=j;
             
@@ -199,19 +199,28 @@ int main(int argc, char *argv[]) {
     }
     for(j=Ndatos2-Ndatos1;j<Ndatos2;j++){correla[j]=0.0;}
     
+   for(j=Ndatos2-Ndatos1;j<Ndatos2;j++){media[j]=0.0;}
     // guardo correlaciones en un único archivo
-    char nomcorr[100],nomcorrtemp[100];
+    char nomcorr[100],nomcorrtemp[100],nomcorrfilt[100],nomcorrfilttemp[100];
     char buffer[500];
     FILE *ptrcorr;
     FILE *ptrcorrtemp;
+    FILE *ptrcorrfilt;
+    FILE *ptrcorrfilttemp;
     
     strcpy(nomcorr,"FILTRADOS/corremg.");
     strcat(nomcorr,entrada);
     strcpy(nomcorrtemp,"FILTRADOS/corremgtemp.");
     strcat(nomcorrtemp,entrada);
 
+
+    printf("salida %s\n",nomcorrtemp);
     ptrcorr = fopen(nomcorr, "r");
     ptrcorrtemp=fopen(nomcorrtemp,"w");
+
+    
+    
+    
     if (ptrcorr != NULL) { //si existe
         fgets(buffer, 500, ptrcorr);
         buffer[strcspn(buffer, "\n")] = 0;
@@ -222,23 +231,73 @@ int main(int argc, char *argv[]) {
             buffer[strcspn(buffer, "\n")] = 0;
             fprintf(ptrcorrtemp,"%s\t%g\n",buffer,correla[j]);
         }
- }
+        fclose(ptrcorr);
+        fclose(ptrcorrtemp);
+        remove(nomcorr);
+     }
     else {//si no existe genero posicion y primera correlacion
         fprintf(ptrcorrtemp,"%s\t%s\n","pos",perio);//guardo el nombre del templado en la primera linea
         
         for(j=2;j<Ndatos2;j++){
-            fprintf(ptrcorrtemp,"%d\t%g\n",j,correla[j]);
+            //printf("%ld\t%g\n",j,correla[j]);
+            fprintf(ptrcorrtemp,"%ld\t%g\n",j,correla[j]);
         }
     
-    
+        fclose(ptrcorrtemp);
     }
-    
-    
-    fclose(ptrcorr);
-    fclose(ptrcorrtemp);
-    remove(nomcorr);
+
     rename(nomcorrtemp,nomcorr);
+
+    strcpy(nomcorrfilt,"FILTRADOS/corremgfilt.");
+    strcat(nomcorrfilt,entrada);
+    strcpy(nomcorrfilttemp,"FILTRADOS/corremgfilttemp.");
+    strcat(nomcorrfilttemp,entrada);
+
+
+
+    ptrcorrfilt=fopen(nomcorrfilt,"r");
+    ptrcorrfilttemp=fopen(nomcorrfilttemp,"w");
+
+
+    if (ptrcorrfilt != NULL) { //si existe
+        fgets(buffer, 500, ptrcorrfilt);
+        buffer[strcspn(buffer, "\n")] = 0;
+        fprintf(ptrcorrfilttemp,"%s\t%s\n",buffer,perio);//guardo el nombre del templado en la primera linea
+        
+        for(j=2;j<Ndatos2;j++){
+            fgets(buffer, 500, ptrcorrfilt);
+            buffer[strcspn(buffer, "\n")] = 0;
+            if (media[j]>umbruido){fprintf(ptrcorrfilttemp,"%s\t%g\n",buffer,correla[j]);}
+            else {fprintf(ptrcorrfilttemp,"%s\t%g\n",buffer,0.0);}
+        }        
+        fclose(ptrcorrfilt);
+        fclose(ptrcorrfilttemp);
+        remove(nomcorrfilt);
+    }
+    else {//si no existe genero posicion y primera correlacion
+        fprintf(ptrcorrfilttemp,"%s\t%s\n","pos",perio);//guardo el nombre del templado en la primera linea
+        
+        for(j=2;j<Ndatos2;j++){
+            //printf("%ld\t%g\n",j,correla[j]);
+            if (media[j]>umbruido){fprintf(ptrcorrfilttemp,"%ld\t%g\n",j,correla[j]);}
+            else {fprintf(ptrcorrfilttemp,"%ld\t%g\n",j,0.0);}
+            
+            
+        }
+    
+        fclose(ptrcorrfilttemp);
+    }
+
+
+    rename(nomcorrfilttemp,nomcorrfilt);
+
+
     printf("cantidad de coincidencias=%d \n\n\n",cant);
+
+
+
+
+
 
     free_dvector(correla, 1, Ndatos2);
     free_dvector(emg2,1,Ndatos2);

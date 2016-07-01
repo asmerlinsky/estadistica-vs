@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-gcc envolvente_templados.c -lm -o envtempl.exe
+gcc envolvente_templados.c -lm -O2 -o envtempl.exe
 # Ejecutable templado numerador m
 
 for f in emg*.Sound  #paso por todos los archivos con ese nombre.
@@ -19,7 +19,7 @@ done
 
 cd ..
 
-gcc emgs_correlation_templates.c -lm -o correlacionsueno.exe
+gcc emgs_correlation_templates-corr1arch.c -lm -O2 -o corr1arch.exe
 
 ap=1
 numfiles=$(ls FILTRADOS/envolvente.ZF*.dat | wc -l)
@@ -27,26 +27,25 @@ numfiles=$(ls FILTRADOS/envolvente.ZF*.dat | wc -l)
 for f in FILTRADOS/envolvente.ZF*.Sound.dat
 do 
     for s in envolvente.emg*.Sound.dat                 
-    do         
-        ./correlacionsueno.exe ${f##*/} $s # Ejecutable     archivo-a-procesar templado
+    do  
+        echo $ap de $numfiles archivos procesados       
+        ./corr1arch.exe ${f##*/} $s # Ejecutable     archivo-a-procesar templado
     done
-    echo $ap de $numfiles archivos procesados
+    
     ((ap+=1))
 done
 
+gcc emgs_correlation_templates-otraact.c -lm -O2 -o otraact.exe
 
-#los argumentos del script son: -numerador -m -criterio -cantidadtemplados(tienen que estar ordenados del 1 al #detemplados que haya)
-#ver que el archivo de señal completa en el script sea el que sea quiere comparar
-#python3 figuras_correlaciones_todos_emgs.py ZF-MCV_2015-12-02_11_48_01_vs_18_band.Sound 5 4 1 7
+ap=1
 
+for f in FILTRADOS/envolvente.ZF*.Sound.dat
+do 
+             
+        ./otraact.exe ${f##*/}
 
-
-#gcc emg_check_correlacion.c -lm -o corrcheck.exe
-
-
-
-# for f in FILTRADOS/corremg26*.dat #paso por todos los archivos con ese nombre.
-    # do ./corrcheck.exe $f 26 0.745
-# done
+    echo $ap de $numfiles archivos procesados
+    ((ap+=1))
+done
 
 

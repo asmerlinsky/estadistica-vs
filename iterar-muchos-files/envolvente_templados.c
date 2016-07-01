@@ -76,7 +76,6 @@ int main(int argc, char *argv[]) {
     Ndatos=filesize(entrada,1);
 
     
-
     int POT2up=nearpow2up(Ndatos);
 
     temp=dvector(1,POT2up);
@@ -154,7 +153,7 @@ int main(int argc, char *argv[]) {
         if(strcmp(perio, "2-1")==0) {rmin=0.7;}
         else if(strcmp(perio, "2-3")==0) {rmin=0.6;}
         else if(strcmp(perio, "2-4")==0) {rmin=0.7;}
-        else if(strcmp(perio, "2-45")==0) {rmin=0.75;}
+        else if(strcmp(perio, "2-45")==0) {rmin=0.7;}
         else if(strcmp(perio, "2-A")==0) {rmin=0.55;}
         else if(strcmp(perio, "2-B")==0) {rmin=0.55;}
         else if(strcmp(perio, "2-B5")==0) {rmin=0.6;}

@@ -81,9 +81,9 @@ for j in range(0,len(directorios)):
             for puntos in lugruido:
                 mediaruido[i]=np.mean(np.abs(datafilt[puntos:puntos+1000]))
                 i+=1
-            umbralenv=3*np.mean(mediaruido)*0.0103  
+            umbralenv=4*np.mean(mediaruido)*0.0103  
         else:
-            umbralenv=3*umbralstd*0.0103 
+            umbralenv=4*umbralstd*0.0103 
             print("no hay lugar con r>umbralajuste")
         
         file.write('envolvente.'+os.path.splitext(os.path.basename(musculo))[0]+'.Sound.dat'+'\t'+str(umbralenv)+'\n')

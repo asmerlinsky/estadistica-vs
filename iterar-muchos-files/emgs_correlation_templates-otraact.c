@@ -46,112 +46,110 @@ int nearpow2up(int number){
 }
 
 
-
+char* sacarespacios(char* input)                                         
+{
+    int i,j;
+    char *output=input;
+    for (i = 0, j = 0; i<strlen(input); i++,j++)          
+    {
+        if (input[i]!=' ')                           
+            output[j]=input[i];                     
+        else
+            j--;                                     
+    }
+    output[j]=0;
+    return output;
+}
 
 
  /*usa los templados procesados*/
 int main(int argc, char *argv[]) {
-    int i,j,k,Ndatos1,Ndatos2;
+    int i, j, k, Ndatos;
     
     double numerador;
-    char filetemplado[100];
-    char ubicacion[100];
     char entrada[100];
     char cargar[100];
-    char salida[200];
     char nomcorr[100];
-    FILE *pFile;
 
-
-
-
-    //asigno que silaba es
+    //cargo el nombre del archivo
     sprintf(entrada,"%s",argv[1]); //WINDOWS
-    
     strcpy(nomcorr,"FILTRADOS/corremg");
     strcat(nomcorr,entrada);
-    sprintf(filetemplado,"%s",argv[2]);
-    
-    //sprintf(salida,"%s/corremg%s.%s.dat",ubicacion,perio,entrada); LINUX
-    
-    printf("\ntemplado es %s \n", filetemplado);
-    //printf("entrada es %s \n", entrada);    
-    //printf("salida es %s\n",salida);
-    printf("perio vale %s \n",perio);
-
-    
-    //carga SUEÑO
+        
+    //carga la envolvente
     strcpy(cargar,"FILTRADOS/");    
     strcat(cargar, entrada);//WINDOWS
-    double *emg2;
-    //Ndatos2=filesize(entrada,1); LINUX
+    
     printf("cargo %s\n",cargar);//WINDOWS
-    Ndatos2=filesize(cargar,1); //WINDOWS
-    int POT2up=nearpow2up(Ndatos2);
-    int POT2=nearpow2(Ndatos2);
-    emg2=dvector(1,Ndatos2);
-    //file_to_vector(entrada,emg2,1,Ndatos2,1,1);//LINUX
-    file_to_vector(cargar,emg2,1,Ndatos2,1,1);//WINDOWS
+    Ndatos=filesize(cargar,1); //WINDOWS
+    double *emg;
+    emg=dvector(1,Ndatos);
+    file_to_vector(cargar,emg,1,Ndatos,1,1);//WINDOWS
     
 
     printf("sueno OK\n");
     
-    printf("Ndatos1: %d\n",Ndatos1);  
+    printf("Ndatos: %d\n",Ndatos);  
     
-    //cargo correlaciones
+    //CARGO CORRELACIONES
+    //CUENTO COLUMNAS
     int ncols = 1;
-    char nomcorr[100]
-    buffer[500];
+    int nfilas = 0;
+    int c;
     FILE *ptrcorr;
-    strcpy(nomcorr,"FILTRADOS/corremg");
+    strcpy(nomcorr,"FILTRADOS/corremg.");
     strcat(nomcorr,entrada);
+    printf("nomcorr=%s\n",nomcorr);
     ptrcorr = fopen(nomcorr, "r");
-    fgets(buffer, 500, ptrcorr);
-    i=0
-    while (letra[i]!='\n'){
-        if (letra[i]=='\t'){
-            ++ncols;
-            i+=1;
+    
+    if (ptrcorr != NULL) { 
+        c = fgetc(ptrcorr);
+        while(c!='\n'){
+            if (c=='\t'){++ncols;}
+            c = fgetc(ptrcorr);
+            
         }
-    }
-    //char perios[20];
-    
-    printf("conte %d columnas\n",ncols);
-    
-    
-    
-    int longcorrela;
-    double **correla
-    longcorrela=filesize(cargar,);
-    correla=dmatrix
-    //FILE *ptr;
-
-    sprintf(salida,"FILTRADOS/corremg%s.%s",perio,entrada);//SE SUONE QUE WINDOWS SE BANCA ESTO
-    printf("salida %s\n",salida);
-
-    //ptr=fopen(salida,"w");
-    double rmin;
-    int cant=0,ultj=0;
-    
-    
-    if(strcmp(perio, "2-1")==0) {rmin=0.7;}
-    else if(strcmp(perio, "2-3")==0) {rmin=0.6;}
-    else if(strcmp(perio, "2-4")==0) {rmin=0.7;}
-    else if(strcmp(perio, "2-45")==0) {rmin=0.75;}
-    else if(strcmp(perio, "2-A")==0) {rmin=0.55;}
-    else if(strcmp(perio, "2-B")==0) {rmin=0.55;}
-    else if(strcmp(perio, "2-B5")==0) {rmin=0.6;}
-    else if(strcmp(perio, "2-7")==0) {rmin=0.7;}
-    else if(strcmp(perio, "2-67")==0) {rmin=0.55;}
-    else if(strcmp(perio, "2-5")==0) {rmin=0.75;}
-    else if(strcmp(perio, "2-56")==0) {rmin=0.55;}
-    else if(strcmp(perio, "2-6")==0) {rmin=0.7;}
+    }    
     else {
-        fprintf(stderr, "No asignaste umbral a este templado! Exiting...\n");
-        exit(-1);
+        printf("Falta archivo %s\n", nomcorr);
+        exit(0); 
     }
+    //CUENTO FILAS 
+    rewind(ptrcorr);
+    char buffer[500];
+    char bufferperios[500];
+    fgets(bufferperios, 500, ptrcorr);
+    while(!feof(ptrcorr)){
+        fgets(buffer, 500, ptrcorr);
+        ++nfilas;
+    }
+    --nfilas;//esta es la cantidad de filas de la matrix(solo los numeros)
     
-    //levanto el umbral de ruido
+    printf("conte %d filas y %d columnas\n",nfilas,ncols);    
+    fclose(ptrcorr);
+    
+    //CARGO LA MATRIZ
+    double **correla;
+    correla=dmatrix(0,nfilas-1,0,ncols-1);
+    //file_to_matrix1(nomcorr, correla, EN QUE FILA EMPIEZA LA MATRIZ, CUANTAS FILAS TIENE, CUANTAS COLUMNAS TIENE)
+    file_to_matrix1(nomcorr, correla, 1, nfilas, ncols);
+   
+
+    
+    
+    
+    i = 0;
+    char *p = strtok (bufferperios, "\t");
+    char *labelcorr[ncols];
+
+    while (p != NULL){
+        labelcorr[i++] = p;
+        p = strtok (NULL, " \r\n\t");
+    }
+     
+    for (i = 0; i < ncols; ++i) {sacarespacios(labelcorr[i]); }    
+        
+    //LEVANTO EL UMBRAL DE RUIDO
     char umbfile[100];
     k=0;
     strcpy(umbfile,"FILTRADOS/");
@@ -169,53 +167,92 @@ int main(int argc, char *argv[]) {
     }
     fclose(ptrumbral);
     
+    //LEVANTO LA LONGITUD DE LOS ARCHIVOS
+    char labellong[20][ncols-1];
+    int longtemp[ncols-1];
+    double umbralcorrelacion[ncols-1];
+    char label[20];
+    int ltemp;
+    double rmin;
+    
+    FILE *ptrlong;
+    ptrlong=fopen("datatemplados.dat","r");
+    fgets(buffer, 500, ptrlong);
+    for (i=0;i<(ncols-1);i++){
+       fscanf(ptrlong,"%s\t%d\t%lf",labellong[i],&longtemp[i],&umbralcorrelacion[i]);
 
+    }
+    fclose(ptrlong);  
 
     
+    int ii, cota, m, n, mm;
+    FILE *pFile;
+    int cant=0;
+    int ultj=0;
+    double xbar=0.0;
+    int step=(correla[1][0]-correla[0][0]);
+    int fracstep=(1000/step);
 
-    
-     //capaz me puedo ahorrar mucho si hago las cuentas solo cuando supero el umbral
-    for(j=2;j<Ndatos2-Ndatos1;j++){ //barro por todos los puntos de la señal que me permita el largo del templado
-    
-        double x1bar=0.0,sx1=0.0; //Toma el promedio del templado
-        for(i=2;i<Ndatos1;i++){x1bar+=emg1[i];}
-        x1bar /= (Ndatos1-2);
+    for (j=0;j<(nfilas-fracstep);j+=10){//recorro las posiciones donde tome correlaciones si cambio i++ por i+=n lo recorro en multiplos de n*step
 
-        double x2bar=0.0, sx2=0.0, r=0.0; //Toma el promedio de la señal
-        for(i=2;i<Ndatos1;i++){x2bar+=emg2[i+j];} 
-        x2bar /= (Ndatos1-2);
-        
-        for(i = 2; i < Ndatos1; i++) {sx1 += (emg1[i] - x1bar) * (emg1[i] - x1bar);} //Resta el promedio
-        sx1 = sqrt((sx1 / (Ndatos1-2)));// y toma una especie de norma de la señal con promedio 0            
-
-        
-        for(i = 2; i < Ndatos1; i++) {sx2 += (emg2[i+j] - x2bar) * (emg2[i+j] - x2bar);}//idem
-        sx2 = sqrt((sx2 / (Ndatos1-2)));
-    
-        for( i = 2; i < Ndatos1; i++ ) {r += (((emg1[i] - x1bar)/sx1) * ((emg2[i+j] - x2bar)/sx2));}//Hace un producto normalizado(convoluciona)
-        r /= (Ndatos1-2);
+        for(i=correla[j][0];i<correla[j][0]+1000;i++){xbar+=emg[i];}
+        xbar /= 1000;
+        k=0;
+        if (xbar>3*umbruido){
+            m=1;//el 0 es la posicion
+            while( (k!=-1) && (m<ncols) ){// mientras no encuentre correlacion en algun templado
+                ii=0;
+                for (;;){ //mientras no de con el templado a aanlizar comparo.
+                    if (strcmp(labelcorr[m],labellong[ii])==0){
+                        cota=longtemp[ii];
+                        rmin=umbralcorrelacion[ii];
+                        break;
+                        
+                    }
+                    ii+=1;
+                    if ( (ii>ncols) && ii<ncols+4 ){printf("cague, no enconte igualdad con labelcorr[%d]=%s\n",m,labelcorr[m]);}
+                } 
                 
-        correla[j]=r;      
-
+                
+                n=(j+1000);//empieza a buscar esta cantidad de lugares y va hacia atras (va a ser un poco mas eficiente) 
+                
+                while( n>=(j-cota) && n>0 ){//mientras no encuentre correlacion que supere el umbral con este templado, sigo buscando
+                    
+                    if( (correla[n][m]>rmin) ){
+                    k=-1;
+                    break;
+                    }//encontre correlacion con el templado, así que dejo de buscar
+                    
+                    n-=1;    
+                
+                }
+                
+                m+=1;//paso al proximo templado.
+                
+                
             
-        if((r>rmin) & (x2bar>umbruido)){pFile=fopen("resultados.dat","a");
-            if(j-ultj>Ndatos1/2){ cant+=1;}            
-            fprintf(pFile,"%d\t %g\t %s\t %s\t %d\n",j,r,entrada,perio,cant);
-            fclose(pFile);            
-            ultj=j;
+            
+                
             
             }
+            //si recorri todo el loop y k=0, entonces tengo un segmento
+            if (k==0){k=1;}
+        }
+        
+        if (k==1){
+            if(j-ultj>1500){ cant+=1;}  
+            pFile=fopen("resultados.dat","a");
+            fprintf(pFile,"%g\t %G\t %s\t %s\t %d\n",correla[j][0],-0.8,entrada,"sincorr",cant);
+            fclose(pFile);            
+            ultj=j;
+                        
+        }
+    
     }
-    for(j=Ndatos2-Ndatos1;j<Ndatos2;j++){correla[j]=0.0;}
+    printf("encontre %d segmentos de ruido\n",cant);
+    free_dmatrix(correla,0,nfilas-1,0,ncols-1);
+    free_dvector(emg,1,Ndatos);
     
-    // guardo correlaciones en un único archivo
-    
-    
-
-
-    
-
-    free_dvector(correla, 1, Ndatos2);
 }
 
 
